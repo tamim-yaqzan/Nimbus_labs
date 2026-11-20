@@ -5,7 +5,7 @@
     "titleLineOne": "PRODUCTS",
     "titleLineTwo": "BUILT FOR REAL PROBLEMS",
     "lead": "Seven products. Each one solving something real.",
-    "productsCount": 7,
+    "productsCount": 10,
     "servicesCount": 5,
     "note": "Verified catalogue"
   },
@@ -197,17 +197,111 @@
         "Pulse charts (24h / 48h / 7d) showing coverage spikes",
         "Tone, stance and hostility scoring on every article",
         "Claims flagging, watchlists, entities and alerts",
-        "Bilingual interface: English and \u09ac\u09be\u0982\u09b2\u09be"
+        "Bilingual interface: English and বাংলা"
       ],
-      "link": "https://the-melange-masud1901s-projects.vercel.app/",
-      "image": "./assets/explore/supercomputer.jpg",
+      "link": "#contact",
+      "image": "./assets/explore/products/melange.jpg",
       "theme": "plum",
       "bg": "#2f122e",
       "contrast": "dark",
       "visual": {
-        "palette": ["#6459e8", "#5eead4", "#f43f5e"],
+        "palette": [
+          "#6459e8",
+          "#5eead4",
+          "#f43f5e"
+        ],
         "pattern": "orbit",
         "glyph": "MELANGE"
+      }
+    },
+    {
+      "id": "product-08",
+      "label": "Form Master",
+      "badge": "School Platform",
+      "category": "Education & School Management",
+      "status": "In Development",
+      "summary": "Your whole school in one app — website and phone app, identical.",
+      "description": "A school and college platform with Student, Faculty and Admin portals. The website and the Android app are the same build, so everyone sees exactly the same thing on any device. Teachers edit only their own subjects and classes, while the admin manages the whole institution centrally.",
+      "features": [
+        "Student, Faculty and Admin portals in one app",
+        "Website and Android app from the same build",
+        "Management admin: routine, notices, events, teacher profiles, clubs, certificates",
+        "Commercial admin: fees, salaries, vouchers, expenses, balance sheet",
+        "Role-based permissions so teachers edit only their own classes"
+      ],
+      "link": "https://nimbus-formmaster.vercel.app",
+      "image": "./assets/explore/products/form-master.jpg",
+      "theme": "teal",
+      "bg": "#0f3d3e",
+      "contrast": "dark",
+      "visual": {
+        "palette": [
+          "#5eead4",
+          "#6459e8",
+          "#020016"
+        ],
+        "pattern": "grid",
+        "glyph": "FORMMASTER"
+      }
+    },
+    {
+      "id": "product-09",
+      "label": "BCS Monster",
+      "badge": "Exam Coaching",
+      "category": "BCS Preparation & Coaching",
+      "status": "In Development",
+      "summary": "A magical launchpad for BCS exam preparation.",
+      "description": "A learning platform for BCS aspirants in Bangladesh. It keeps the official BPSC exam schedule in view with live countdowns, puts focused study notes in one place, and lets learners practise in a mock-test arena while tracking their progress.",
+      "features": [
+        "Live countdowns for BPSC preliminary, written and viva stages",
+        "Study notes: constitution, Bangla and English literature, maths and mental skills",
+        "Mock test arena for exam practice",
+        "Progress tracking: completed lessons, practice accuracy, study streak",
+        "Bangla-first content"
+      ],
+      "link": "#contact",
+      "image": "./assets/explore/products/bcs-monster.jpg",
+      "theme": "violet",
+      "bg": "#6459e8",
+      "contrast": "dark",
+      "visual": {
+        "palette": [
+          "#e25c80",
+          "#a855f7",
+          "#020016"
+        ],
+        "pattern": "aurora",
+        "glyph": "BCSMONSTER"
+      }
+    },
+    {
+      "id": "product-10",
+      "label": "Cloud Restaurant",
+      "badge": "Restaurant SaaS",
+      "category": "Restaurant Management Platform",
+      "status": "In Development",
+      "summary": "One platform that runs every restaurant: orders, kitchen, delivery and more.",
+      "description": "A multi-restaurant system with one central server for all restaurants. Each restaurant gets its own public website with online ordering and table QR ordering, while staff manage everything from a single app, from orders and kitchen to delivery and finances.",
+      "features": [
+        "Public website and online ordering for each restaurant",
+        "Table QR ordering for dine-in customers",
+        "Staff app for management, kitchen, cashier and riders",
+        "Touch POS and cash book with profit and loss",
+        "Bangla and English, web and Android app"
+      ],
+      "link": "https://app-cloud-restaurant.vercel.app",
+      "image": "./assets/explore/products/cloud-restaurant.jpg",
+      "theme": "rose",
+      "bg": "#e25c80",
+      "contrast": "dark",
+      "visual": {
+        "palette": [
+          "#5eead4",
+          "#6459e8",
+          "#2f122e"
+        ],
+        "pattern": "contour",
+        "glyph": "RESTAURANT"
       }
     },
     {
@@ -219,7 +313,7 @@
       "summary": "Learn with spaced repetition. Master your test preparation.",
       "description": "A self-paced learning and test-prep platform that uses spaced repetition — flashcards that come back just before you would forget them — together with quizzes and structured modules. Stop re-reading. Start remembering. Space Prep schedules reviews for you, gives instant feedback, and shows your mastery so you always know what to study next.",
       "features": [
-        "Spaced-repetition flashcards with a daily \u2018cards due\u2019 queue",
+        "Spaced-repetition flashcards with a daily ‘cards due’ queue",
         "90+ built-in quizzes with instant feedback",
         "9 beginner-friendly modules: Power Query, DAX, visualisations and more",
         "Dashboard and leaderboard to track progress and compete with peers",
@@ -231,7 +325,11 @@
       "bg": "#e25c80",
       "contrast": "dark",
       "visual": {
-        "palette": ["#5eead4", "#6459e8", "#2f122e"],
+        "palette": [
+          "#5eead4",
+          "#6459e8",
+          "#2f122e"
+        ],
         "pattern": "contour",
         "glyph": "SPACEPREP"
       }
@@ -256,7 +354,11 @@
       "bg": "#6459e8",
       "contrast": "dark",
       "visual": {
-        "palette": ["#e25c80", "#a855f7", "#020016"],
+        "palette": [
+          "#e25c80",
+          "#a855f7",
+          "#020016"
+        ],
         "pattern": "aurora",
         "glyph": "DIALO"
       }
@@ -281,7 +383,11 @@
       "bg": "#0f3d3e",
       "contrast": "dark",
       "visual": {
-        "palette": ["#5eead4", "#6459e8", "#020016"],
+        "palette": [
+          "#5eead4",
+          "#6459e8",
+          "#020016"
+        ],
         "pattern": "grid",
         "glyph": "KHELA"
       }
@@ -307,7 +413,11 @@
       "bg": "#020016",
       "contrast": "dark",
       "visual": {
-        "palette": ["#f8b4c4", "#e25c80", "#6459e8"],
+        "palette": [
+          "#f8b4c4",
+          "#e25c80",
+          "#6459e8"
+        ],
         "pattern": "pulse",
         "glyph": "PROMPTS"
       }
@@ -319,7 +429,7 @@
       "category": "Frontend Developer Tools",
       "status": "In Development",
       "summary": "A Chrome extension that helps you prompt your frontend faster.",
-      "description": "A developer extension for localhost sites. It lets you point at any element in your running app and hand an AI assistant exactly the context it needs, so vibe coding is faster and more accurate. Telling an AI \u201cchange that button on the left\u201d does not work. DevLens identifies the source of the element you are looking at, maps its dependencies, and copies a compact, precise context block for your AI prompt.",
+      "description": "A developer extension for localhost sites. It lets you point at any element in your running app and hand an AI assistant exactly the context it needs, so vibe coding is faster and more accurate. Telling an AI “change that button on the left” does not work. DevLens identifies the source of the element you are looking at, maps its dependencies, and copies a compact, precise context block for your AI prompt.",
       "features": [
         "Hover source inspector: hover any element to see its component source, Ctrl+Click copies context",
         "Dependency graphs and change-impact analysis",
@@ -333,7 +443,11 @@
       "bg": "#1a1040",
       "contrast": "dark",
       "visual": {
-        "palette": ["#a855f7", "#6459e8", "#5eead4"],
+        "palette": [
+          "#a855f7",
+          "#6459e8",
+          "#5eead4"
+        ],
         "pattern": "orbit",
         "glyph": "DEVLENS"
       }
@@ -345,7 +459,7 @@
       "category": "News Reading & Spaced Retention",
       "status": "In Development",
       "summary": "Stay updated with the news, and actually remember it.",
-      "description": "A news-reader app that keeps you current and helps you retain what you read. \u2018Barta\u2019 (\u09ac\u09be\u09b0\u09cd\u09a4\u09be) means \u2018news\u2019 in Bangla. It combines AI summaries, spaced repetition, keyword tagging and mind maps, so a story becomes knowledge you keep rather than a headline you forget.",
+      "description": "A news-reader app that keeps you current and helps you retain what you read. ‘Barta’ (বার্তা) means ‘news’ in Bangla. It combines AI summaries, spaced repetition, keyword tagging and mind maps, so a story becomes knowledge you keep rather than a headline you forget.",
       "features": [
         "AI summaries: short, clear takes so you read more in less time",
         "Spaced repetition (SM-2): key facts return at the right intervals",
@@ -359,7 +473,11 @@
       "bg": "#3a102a",
       "contrast": "dark",
       "visual": {
-        "palette": ["#f43f5e", "#a855f7", "#6459e8"],
+        "palette": [
+          "#f43f5e",
+          "#a855f7",
+          "#6459e8"
+        ],
         "pattern": "contour",
         "glyph": "BARTA"
       }
