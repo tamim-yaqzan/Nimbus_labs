@@ -314,7 +314,8 @@
               <label class="cms-field"><span class="cms-label">Chapter Prefix</span><input class="cms-input" id="explore-ui-chapter-prefix"></label>
               <label class="cms-field"><span class="cms-label">Chapter Separator</span><input class="cms-input" id="explore-ui-chapter-sep"></label>
               <label class="cms-field"><span class="cms-label">Chapter Dash</span><input class="cms-input" id="explore-ui-chapter-dash"></label>
-              <label class="cms-field"><span class="cms-label">Deploy Label</span><input class="cms-input" id="explore-ui-deploy"></label>
+              <label class="cms-field"><span class="cms-label">Live Product Button (e.g. "Experience")</span><input class="cms-input" id="explore-ui-experience"></label>
+          <label class="cms-field"><span class="cms-label">No-Link Product Button (e.g. "Book a meeting")</span><input class="cms-input" id="explore-ui-meeting"></label>
               <label class="cms-field"><span class="cms-label">Explore Label</span><input class="cms-input" id="explore-ui-explore"></label>
               <label class="cms-field"><span class="cms-label">Product Fallback</span><input class="cms-input" id="explore-ui-product-fallback"></label>
               <label class="cms-field"><span class="cms-label">Default Brand Tag</span><input class="cms-input" id="explore-ui-brand-tag"></label>
@@ -401,44 +402,118 @@
       <!-- PRODUCTS -->
       <section class="cms-panel" id="tab-products" role="tabpanel">
         <div class="cms-panel-header">
-          <h1 class="cms-panel-title">Products (Explore Catalogue)</h1>
-          <p class="cms-panel-desc">Add, reorder, duplicate and delete products. Images come from Media.</p>
+          <div>
+            <h1 class="cms-panel-title">Products (Explore Catalogue)</h1>
+            <p class="cms-panel-desc">Add, reorder, duplicate and edit products. Click any product in the catalogue list to select and configure it.</p>
+          </div>
           <div class="cms-panel-actions">
-            <button class="cms-btn cms-btn-ghost" id="btn-add-product">+ Add Product</button>
-            <button class="cms-btn cms-btn-ghost" id="btn-duplicate-product">Duplicate</button>
-            <button class="cms-btn cms-btn-ghost" id="btn-delete-product">Delete</button>
+            <button class="cms-btn cms-btn-ghost" type="button" id="btn-add-product">+ Add Product</button>
+            <button class="cms-btn cms-btn-ghost" type="button" id="btn-duplicate-product">Duplicate</button>
+            <button class="cms-btn cms-btn-ghost cms-btn-danger" type="button" id="btn-delete-product">Delete</button>
           </div>
         </div>
-        <div class="cms-grid cms-grid-products">
-          <div class="cms-card cms-card-sidebar">
-            <div class="cms-card-header"><h2 class="cms-card-title">Catalogue</h2></div>
-            <div class="cms-card-body"><div class="cms-list" id="cms-product-list"></div></div>
+
+        <div class="cms-product-manager">
+          <!-- Column 1: Left Catalogue Rail -->
+          <div class="cms-product-rail">
+            <div class="rail-header">
+              <span class="rail-title">ALL PRODUCTS</span>
+              <span class="rail-counter" id="prod-rail-counter">7 PRODUCTS</span>
+            </div>
+            <div class="rail-search-box">
+              <input type="text" class="rail-search-input" id="prod-search-input" placeholder="Search products...">
+            </div>
+            <div class="cms-product-list" id="cms-product-list"></div>
           </div>
+
+          <!-- Column 2: Center Editor Form -->
           <div class="cms-card cms-card-main">
-            <div class="cms-card-header"><h2 class="cms-card-title">Product Editor</h2></div>
+            <div class="cms-card-header">
+              <h2 class="cms-card-title">Product Configuration</h2>
+            </div>
             <div class="cms-card-body cms-form-grid">
               <label class="cms-field"><span class="cms-label">ID (slug)</span><input class="cms-input" id="prod-id"></label>
-              <label class="cms-field"><span class="cms-label">Label</span><input class="cms-input" id="prod-label"></label>
-              <label class="cms-field"><span class="cms-label">Badge</span><input class="cms-input" id="prod-badge"></label>
-              <label class="cms-field"><span class="cms-label">Category</span><input class="cms-input" id="prod-category"></label>
               <label class="cms-field"><span class="cms-label">Status</span><input class="cms-input" id="prod-status"></label>
-              <label class="cms-field"><span class="cms-label">Theme</span><input class="cms-input" id="prod-theme"></label>
-              <label class="cms-field"><span class="cms-label">BG Color</span><input class="cms-input" id="prod-bg"></label>
-              <label class="cms-field"><span class="cms-label">Link</span><input class="cms-input" id="prod-link"></label>
-              <label class="cms-field cms-field-full"><span class="cms-label">Summary</span><input class="cms-input" id="prod-summary"></label>
-              <label class="cms-field cms-field-full"><span class="cms-label">Description</span><textarea class="cms-textarea" id="prod-desc"></textarea></label>
-              <label class="cms-field cms-field-full"><span class="cms-label">Image</span>
-                <div class="cms-input-row"><input class="cms-input" id="prod-image"><button class="cms-btn cms-btn-ghost" type="button" id="btn-pick-prod-image">Pick from Media</button></div>
-              </label>
+              <label class="cms-field"><span class="cms-label">Product Name / Label</span><input class="cms-input" id="prod-label"></label>
+              <label class="cms-field"><span class="cms-label">Badge Tag</span><input class="cms-input" id="prod-badge"></label>
+              <label class="cms-field"><span class="cms-label">Category</span><input class="cms-input" id="prod-category"></label>
+              <label class="cms-field"><span class="cms-label">Deploy Link</span><input class="cms-input" id="prod-link"></label>
+              
+              <!-- Color & Theme Swatches -->
               <div class="cms-field cms-field-full">
-                <span class="cms-label">Features</span>
-                <div id="features-container"></div>
-                <button class="cms-btn cms-btn-ghost cms-btn-sm" type="button" id="btn-add-feature">+ Add Feature</button>
+                <span class="cms-label">Visual Theme &amp; Background Preset</span>
+                <div class="cms-palette-swatches" id="prod-palette-swatches">
+                  <button type="button" class="palette-swatch" data-theme="plum" data-bg="#2f122e"><span class="swatch-color-dot" style="background:#2f122e;"></span>Plum</button>
+                  <button type="button" class="palette-swatch" data-theme="midnight" data-bg="#0d0c26"><span class="swatch-color-dot" style="background:#0d0c26;"></span>Midnight</button>
+                  <button type="button" class="palette-swatch" data-theme="teal" data-bg="#04231b"><span class="swatch-color-dot" style="background:#04231b;"></span>Emerald</button>
+                  <button type="button" class="palette-swatch" data-theme="rose" data-bg="#2b0c16"><span class="swatch-color-dot" style="background:#2b0c16;"></span>Crimson</button>
+                  <button type="button" class="palette-swatch" data-theme="slate" data-bg="#111827"><span class="swatch-color-dot" style="background:#111827;"></span>Dark Slate</button>
+                  <button type="button" class="palette-swatch" data-theme="amber" data-bg="#2a1b05"><span class="swatch-color-dot" style="background:#2a1b05;"></span>Amber</button>
+                  <button type="button" class="palette-swatch" data-theme="cyan" data-bg="#04252e"><span class="swatch-color-dot" style="background:#04252e;"></span>Neon Cyan</button>
+                </div>
+              </div>
+              <label class="cms-field"><span class="cms-label">Theme Name</span><input class="cms-input" id="prod-theme"></label>
+              <label class="cms-field"><span class="cms-label">Background Color (Hex)</span><input class="cms-input" id="prod-bg"></label>
+
+              <!-- Image with live thumbnail preview -->
+              <div class="cms-field cms-field-full">
+                <span class="cms-label">Product Image</span>
+                <div class="cms-input-row" style="display:flex; gap:10px; align-items:center;">
+                  <img src="./assets/explore/supercomputer.jpg" alt="" class="prod-image-preview-thumb" id="prod-image-preview">
+                  <input class="cms-input" id="prod-image" style="flex:1;">
+                  <button class="cms-btn cms-btn-ghost" type="button" id="btn-pick-prod-image">Pick Media</button>
+                </div>
+              </div>
+
+              <label class="cms-field cms-field-full"><span class="cms-label">Headline Summary</span><input class="cms-input" id="prod-summary"></label>
+              <label class="cms-field cms-field-full"><span class="cms-label">Detailed Description</span><textarea class="cms-textarea" id="prod-desc" style="min-height:90px;"></textarea></label>
+              
+              <div class="cms-field cms-field-full">
+                <div style="display:flex; justify-content:space-between; align-items:center; margin-bottom:8px;">
+                  <span class="cms-label" style="margin-bottom:0;">Key Features &amp; Capabilities</span>
+                  <button class="cms-btn cms-btn-ghost cms-btn-xs" type="button" id="btn-add-feature">+ Add Feature</button>
+                </div>
+                <div id="features-container" class="cms-features-builder"></div>
+              </div>
+            </div>
+          </div>
+
+          <!-- Column 3: Right Live WYSIWYG Slide Simulator -->
+          <div class="cms-preview-column">
+            <div class="cms-card cms-preview-card">
+              <div class="cms-card-header">
+                <h2 class="cms-card-title">Live Slide Simulator</h2>
+                <span class="preview-badge">WYSIWYG</span>
+              </div>
+              <div class="cms-simulator-viewport">
+                <div class="sim-slide" id="sim-slide-wrap" data-contrast="dark">
+                  <div class="sim-media-frame">
+                    <img src="./assets/explore/supercomputer.jpg" alt="" class="sim-img" id="sim-img">
+                    <div class="sim-hud">
+                      <span id="sim-hud-code">// NIMBUS 01</span>
+                      <span>ACTIVE</span>
+                    </div>
+                  </div>
+                  <div class="sim-content">
+                    <div class="sim-meta">
+                      <span id="sim-chapter">// CHAPTER 01 / 07 — AI SYSTEMS</span>
+                      <span class="sim-badge" id="sim-badge">INTELLIGENCE</span>
+                    </div>
+                    <h3 class="sim-title" id="sim-title">The Melange</h3>
+                    <p class="sim-summary" id="sim-summary">Political intelligence, on one desk.</p>
+                    <p class="sim-desc" id="sim-desc">Automated media analysis engine.</p>
+                    <ul class="sim-features" id="sim-features">
+                      <li>— Real-time analysis</li>
+                    </ul>
+                    <a href="#contact" class="sim-btn" id="sim-btn-text">DEPLOY THE MELANGE &rarr;</a>
+                  </div>
+                </div>
               </div>
             </div>
           </div>
         </div>
       </section>
+
 
       <!-- SERVICES -->
       <section class="cms-panel" id="tab-services" role="tabpanel">

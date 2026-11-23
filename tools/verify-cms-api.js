@@ -1,7 +1,7 @@
 // Verifies the CMS panel loads and the content API exposes the new groups.
 // The admin password is read from .env via lib/env.js and never printed.
 const http = require('http');
-const { loadEnv } = require('./lib/env');
+const { loadEnv } = require('../lib/env');
 
 const env = loadEnv();
 const password = env.ADMIN_PASSWORD;

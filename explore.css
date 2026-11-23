@@ -465,6 +465,12 @@
   transform: translate3d(0, 100%, 0);
 }
 
+/* Visible leading edge on each incoming curtain, so the wipe reads clearly
+   even when two neighbouring products have similar background colours. */
+.xp-dapper-layer + .xp-dapper-layer {
+  box-shadow: inset 0 1px 0 rgba(255, 255, 255, 0.18), 0 -24px 48px rgba(0, 0, 0, 0.28);
+}
+
 .xp-dapper-layer:first-child,
 .xp-dapper-layer.is--1 {
   background-color: #2f122e; /* Chapter 1: The Melange - Deep Plum */
@@ -531,7 +537,7 @@
   width: 100%;
   max-width: 1400px;
   margin: 0 auto;
-  padding: clamp(70px, 10vh, 110px) clamp(24px, 5vw, 75px) clamp(30px, 5vh, 60px);
+  padding: clamp(64px, 9vh, 96px) clamp(24px, 5vw, 75px) clamp(24px, 4vh, 48px);
   box-sizing: border-box;
 }
 
@@ -544,7 +550,7 @@
 .xp-dapper-slide-grid {
   display: grid;
   grid-template-columns: 1.05fr 1fr;
-  gap: clamp(3rem, 6vw, 7rem);
+  gap: clamp(2.5rem, 5vw, 5.5rem);
   align-items: center;
   width: 100%;
 }
@@ -595,136 +601,107 @@
   transform: scale(1.03);
 }
 
-.xp-dapper-media__overlay {
-  position: absolute;
-  inset: 0;
-  background: linear-gradient(180deg, transparent 40%, rgba(0, 0, 0, 0.55) 100%);
-  pointer-events: none;
-}
-
-/* In-media Sharp HUD Badge */
-.xp-dapper-media-hud {
-  position: absolute;
-  bottom: 1rem;
-  left: 1rem;
-  right: 1rem;
-  display: flex;
-  justify-content: space-between;
-  align-items: center;
-  z-index: 2;
-  font-family: var(--font-mono);
-  font-size: 0.72rem;
-  letter-spacing: 0.18em;
-  color: #ffffff;
-  background: rgba(0, 0, 0, 0.75);
-  padding: 0.5rem 0.85rem;
-  border-radius: 0 !important;
-  border: 1px solid rgba(255, 255, 255, 0.22);
-  backdrop-filter: blur(8px);
-  -webkit-backdrop-filter: blur(8px);
-}
-
 /* Content Column & Typography */
 .xp-dapper-content {
   display: flex;
   flex-direction: column;
-  gap: clamp(0.5rem, 1.2vh, 1rem);
+  gap: 0.75rem;
+  max-width: 560px;
 }
 
 .xp-dapper-meta {
   display: flex;
   align-items: center;
-  justify-content: space-between;
-  gap: 1rem;
+  gap: 0.75rem;
   flex-wrap: wrap;
 }
 
 .xp-dapper-chapter {
-  font-family: var(--font-mono);
-  font-size: 0.78rem;
-  letter-spacing: 0.22em;
+  display: inline-flex;
+  align-items: baseline;
+  gap: 0.6rem;
+  font-size: 0.875rem;
   font-weight: 500;
-  text-transform: uppercase;
+}
+
+.xp-dapper-count {
+  font-family: var(--font-mono);
+  font-size: 0.75rem;
+  opacity: 0.7;
 }
 
 .xp-dapper-badge {
-  font-family: var(--font-mono);
-  font-size: 0.68rem;
-  letter-spacing: 0.14em;
-  text-transform: uppercase;
-  padding: 0.3rem 0.75rem;
+  font-size: 0.75rem;
+  font-weight: 600;
+  padding: 0.2rem 0.6rem;
   border-radius: 0 !important;
   border: 1px solid currentColor;
 }
 
 .xp-dapper-title {
   font-family: var(--font-heading);
-  font-size: clamp(2.3rem, 4.2vw, 3.8rem);
-  font-weight: 800;
-  letter-spacing: -0.035em;
-  line-height: 1.08;
+  font-size: clamp(2rem, 3.2vw, 2.9rem);
+  font-weight: 700;
+  letter-spacing: -0.025em;
+  line-height: 1.1;
   margin: 0;
 }
 
 .xp-dapper-summary {
-  font-size: clamp(1.05rem, 1.4vw, 1.25rem);
-  line-height: 1.5;
+  font-size: clamp(1rem, 1.2vw, 1.125rem);
+  line-height: 1.45;
   font-weight: 500;
   margin: 0;
 }
 
 .xp-dapper-desc {
-  font-size: clamp(0.88rem, 1.05vw, 0.98rem);
-  line-height: 1.65;
+  font-size: 0.95rem;
+  line-height: 1.6;
   margin: 0;
-  max-width: 54ch;
 }
 
-/* Clay.global Sub-service Feature List with sharp hairline dividers */
+/* Feature list: plain body text with small markers */
 .xp-dapper-features {
   list-style: none;
-  margin: 0.4rem 0 0 0;
+  margin: 0.25rem 0 0 0;
   padding: 0;
   display: flex;
   flex-direction: column;
+  gap: 0.4rem;
 }
 
 .xp-dapper-feature-item {
-  display: flex;
-  align-items: baseline;
-  gap: 0.75rem;
-  font-family: var(--font-mono);
-  font-size: clamp(0.75rem, 0.9vw, 0.84rem);
-  letter-spacing: 0.03em;
-  padding: 0.55rem 0;
-  border-bottom: 1px solid currentColor;
-  transition: opacity 0.25s ease, padding-left 0.25s ease;
+  position: relative;
+  padding-left: 1.1rem;
+  font-size: 0.925rem;
+  line-height: 1.45;
 }
 
-.xp-dapper-feature-item:hover {
-  opacity: 1 !important;
-  padding-left: 0.4rem;
-}
-
-.xp-dapper-dash {
-  font-weight: 700;
-  opacity: 0.6;
+.xp-dapper-feature-item::before {
+  content: '';
+  position: absolute;
+  left: 0;
+  top: 0.6em;
+  width: 5px;
+  height: 5px;
+  background: currentColor;
+  opacity: 0.55;
 }
 
 .xp-dapper-actions {
-  margin-top: 0.6rem;
+  margin-top: 0.75rem;
 }
 
 /* Contrast-Inverted Action Buttons (Strictly 0px sharp edges) */
 .xp-dapper-btn {
   display: inline-flex;
   align-items: center;
-  gap: 0.85rem;
-  padding: 0.95rem 2rem;
+  gap: 0.7rem;
+  padding: 0.8rem 1.5rem;
   font-family: var(--font-heading);
-  font-weight: 700;
+  font-weight: 600;
   font-size: 0.95rem;
-  letter-spacing: 0.02em;
+  letter-spacing: 0;
   border-radius: 0 !important;
   text-decoration: none;
   border: 1px solid currentColor;
@@ -776,8 +753,7 @@
 }
 
 .xp-dapper-layer[data-contrast="dark"] .xp-dapper-feature-item {
-  border-bottom-color: rgba(255, 255, 255, 0.16);
-  opacity: 0.85;
+  color: rgba(255, 255, 255, 0.82);
 }
 
 .xp-dapper-layer[data-contrast="dark"] .xp-dapper-btn {
@@ -826,9 +802,7 @@
 }
 
 .xp-dapper-layer[data-theme="cognition"] .xp-dapper-feature-item {
-  border-bottom-color: rgba(2, 0, 22, 0.15);
-  color: #0f172a !important;
-  opacity: 0.9;
+  color: #1e293b !important;
 }
 
 .xp-dapper-layer[data-theme="cognition"] .xp-dapper-btn {

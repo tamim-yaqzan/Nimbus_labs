@@ -23,6 +23,26 @@
     var lastY = window.pageYOffset || document.documentElement.scrollTop;
     var threshold = 80;
 
+    // Stacking service cards pin near the top of the viewport, so the header
+    // must stay out of the way while the deck is pinned, in both directions.
+    var deckList = document.querySelector('.clay-services-cards');
+    var deckWide = window.matchMedia('(min-width: 1101px)');
+
+    function deckIsPinned() {
+      if (!deckList || !deckWide.matches || !deckList.firstElementChild) return false;
+      var first = deckList.querySelector('.clay-service-card');
+      var cards = deckList.querySelectorAll('.clay-service-card');
+      var last = cards[cards.length - 1];
+      if (!first || !last) return false;
+      var stickTop = parseFloat(getComputedStyle(first).top) || 0;
+      // Once the next section (the curtain) covers the top of the screen,
+      // the deck is hidden and the header can behave normally again.
+      var curtain = document.getElementById('methodology');
+      if (curtain && curtain.getBoundingClientRect().top <= header.offsetHeight) return false;
+      return first.getBoundingClientRect().top <= stickTop + 2 &&
+        last.getBoundingClientRect().bottom > header.offsetHeight;
+    }
+
     function onScroll() {
       if (!header) return;
       var y = window.pageYOffset || document.documentElement.scrollTop;
@@ -32,7 +52,9 @@
 
       // Auto-hide when scrolling down, reveal when scrolling up
       var drawerOpen = drawer && drawer.classList.contains('active');
-      if (y > threshold && !drawerOpen) {
+      if (deckIsPinned() && !drawerOpen) {
+        header.classList.add('is-hidden');
+      } else if (y > threshold && !drawerOpen) {
         if (y > lastY + 5) {
           header.classList.add('is-hidden');
         } else if (y < lastY - 5) {
@@ -68,10 +90,19 @@
      Figures: orbs, flatCircles, squares, doubleCone, corners
      ========================================================================== */
   (function initGeometricStages() {
-    if (reduceMotion) return;
-
     var canvases = document.querySelectorAll('.clay-stage-canvas');
     if (!canvases.length) return;
+
+    // Colours come from CSS so the same figures work as black line art on
+    // white (narrow layout) and white line art on the dark card panel.
+    function readTone(canvas) {
+      var cs = getComputedStyle(canvas);
+      var m = (cs.color || '').match(/\d+(\.\d+)?/g) || ['0', '0', '0'];
+      var strength = parseFloat(cs.getPropertyValue('--figure-strength')) || 1;
+      var dot = (cs.getPropertyValue('--figure-dot') || '').trim();
+      var scale = parseFloat(cs.getPropertyValue('--figure-scale')) || 1;
+      return { r: m[0], g: m[1], b: m[2], strength: strength, scale: scale, dot: dot || ('rgb(' + m[0] + ',' + m[1] + ',' + m[2] + ')') };
+    }
 
     canvases.forEach(function (canvas) {
       var figure = canvas.getAttribute('data-figure') || 'orbs';
@@ -82,6 +113,21 @@
       var h = canvas.height;
       var isVisible = false;
       var t = Math.random() * 50;
+      var tone = readTone(canvas);
+
+      function ink(alpha) {
+        return 'rgba(' + tone.r + ', ' + tone.g + ', ' + tone.b + ', ' + Math.min(1, alpha * tone.strength).toFixed(3) + ')';
+      }
+
+      window.addEventListener('resize', function () {
+        tone = readTone(canvas);
+        if (reduceMotion) render();
+      }, { passive: true });
+
+      if (reduceMotion) {
+        render();
+        return;
+      }
 
       if ('IntersectionObserver' in window) {
         var obs = new IntersectionObserver(function (entries) {
@@ -91,15 +137,24 @@
         obs.observe(canvas);
       } else {
         isVisible = true;
+        requestAnimationFrame(draw);
       }
 
       function draw() {
         if (!isVisible) return;
         t += 0.015;
-        ctx.clearRect(0, 0, w, h);
+        render();
+        requestAnimationFrame(draw);
+      }
 
+      function render() {
+        ctx.clearRect(0, 0, w, h);
         var cx = w / 2;
         var cy = h / 2;
+        ctx.save();
+        ctx.translate(cx, cy);
+        ctx.scale(tone.scale, tone.scale);
+        ctx.translate(-cx, -cy);
 
         switch (figure) {
           case 'orbs':
@@ -111,18 +166,15 @@
               ctx.scale(1, 0.42);
               ctx.beginPath();
               ctx.arc(0, 0, 180 - (i * 35), 0, Math.PI * 2);
-              ctx.strokeStyle = 'rgba(0, 0, 0, ' + (0.16 - i * 0.03) + ')';
-              ctx.lineWidth = 1.5;
+              ctx.strokeStyle = ink(0.16 - i * 0.03);
+              ctx.lineWidth = 1.5 / tone.scale;
               ctx.stroke();
 
-              // Clean orbital dot
               var ang = t * 1.4 + i;
               var rad = 180 - (i * 35);
-              var bx = Math.cos(ang) * rad;
-              var by = Math.sin(ang) * rad;
               ctx.beginPath();
-              ctx.arc(bx, by, 3.5, 0, Math.PI * 2);
-              ctx.fillStyle = '#000000';
+              ctx.arc(Math.cos(ang) * rad, Math.sin(ang) * rad, 4, 0, Math.PI * 2);
+              ctx.fillStyle = tone.dot;
               ctx.fill();
               ctx.restore();
             }
@@ -137,13 +189,13 @@
               var py = cy + Math.sin(angle * 1.2) * (dist * 0.6);
               ctx.beginPath();
               ctx.arc(px, py, 35, 0, Math.PI * 2);
-              ctx.strokeStyle = 'rgba(0, 0, 0, 0.12)';
-              ctx.lineWidth = 1.5;
+              ctx.strokeStyle = ink(0.12);
+              ctx.lineWidth = 1.5 / tone.scale;
               ctx.stroke();
 
               ctx.beginPath();
-              ctx.arc(px, py, 4, 0, Math.PI * 2);
-              ctx.fillStyle = '#111';
+              ctx.arc(px, py, 4.5, 0, Math.PI * 2);
+              ctx.fillStyle = tone.dot;
               ctx.fill();
             }
             break;
@@ -155,11 +207,15 @@
               ctx.translate(cx, cy);
               ctx.rotate(t * 0.3 * (s % 2 === 0 ? -1 : 1));
               var size = 180 - (s * 35);
-              ctx.strokeStyle = 'rgba(0, 0, 0, ' + (0.15 - s * 0.03) + ')';
-              ctx.lineWidth = 1.5;
+              ctx.strokeStyle = ink(0.15 - s * 0.03);
+              ctx.lineWidth = 1.5 / tone.scale;
               ctx.strokeRect(-size / 2, -size / 2, size, size);
               ctx.restore();
             }
+            ctx.beginPath();
+            ctx.arc(cx, cy, 4.5, 0, Math.PI * 2);
+            ctx.fillStyle = tone.dot;
+            ctx.fill();
             break;
 
           case 'doubleCone':
@@ -167,15 +223,14 @@
             ctx.save();
             ctx.translate(cx, cy);
             ctx.rotate(t * 0.25);
-            var count = 12;
-            for (var k = 0; k < count; k++) {
-              var a = (k / count) * Math.PI * 2;
+            for (var k = 0; k < 12; k++) {
+              var a = (k / 12) * Math.PI * 2;
               ctx.beginPath();
               ctx.moveTo(Math.cos(a) * 160, -120);
               ctx.lineTo(0, 0);
               ctx.lineTo(Math.cos(a + Math.PI) * 160, 120);
-              ctx.strokeStyle = 'rgba(0, 0, 0, 0.08)';
-              ctx.lineWidth = 1.2;
+              ctx.strokeStyle = ink(0.08);
+              ctx.lineWidth = 1.2 / tone.scale;
               ctx.stroke();
             }
             ctx.restore();
@@ -187,45 +242,24 @@
             ctx.translate(cx, cy);
             var arm = 40;
             var box = 140 + Math.sin(t) * 15;
-            ctx.strokeStyle = 'rgba(0, 0, 0, 0.2)';
-            ctx.lineWidth = 2;
-
-            // Top-left
+            ctx.strokeStyle = ink(0.2);
+            ctx.lineWidth = 2 / tone.scale;
+            [[-1, -1], [1, -1], [-1, 1], [1, 1]].forEach(function (q) {
+              ctx.beginPath();
+              ctx.moveTo(q[0] * box, q[1] * (box - arm));
+              ctx.lineTo(q[0] * box, q[1] * box);
+              ctx.lineTo(q[0] * (box - arm), q[1] * box);
+              ctx.stroke();
+            });
             ctx.beginPath();
-            ctx.moveTo(-box, -box + arm);
-            ctx.lineTo(-box, -box);
-            ctx.lineTo(-box + arm, -box);
-            ctx.stroke();
-
-            // Top-right
-            ctx.beginPath();
-            ctx.moveTo(box - arm, -box);
-            ctx.lineTo(box, -box);
-            ctx.lineTo(box, -box + arm);
-            ctx.stroke();
-
-            // Bottom-left
-            ctx.beginPath();
-            ctx.moveTo(-box, box - arm);
-            ctx.lineTo(-box, box);
-            ctx.lineTo(-box + arm, box);
-            ctx.stroke();
-
-            // Bottom-right
-            ctx.beginPath();
-            ctx.moveTo(box - arm, box);
-            ctx.lineTo(box, box);
-            ctx.lineTo(box, box - arm);
-            ctx.stroke();
-
+            ctx.arc(0, 0, 4.5, 0, Math.PI * 2);
+            ctx.fillStyle = tone.dot;
+            ctx.fill();
             ctx.restore();
             break;
         }
-
-        requestAnimationFrame(draw);
+        ctx.restore();
       }
-
-      if (isVisible) requestAnimationFrame(draw);
     });
   })();
 
@@ -268,6 +302,94 @@
   })();
 
   /* ==========================================================================
+     3b. STACKING SERVICE CARDS
+     Cards are position: sticky (see audit.css). As each later card slides up
+     over a card, that card scales down a little, so the stack reads as depth.
+     The card currently on top gets .is-active (highlighted number badge).
+     ========================================================================== */
+  (function initCardStack() {
+    var cards = Array.prototype.slice.call(document.querySelectorAll('.clay-service-card'));
+    if (cards.length < 2) return;
+
+    // Split "01 / SECURITY AUDITS" into a number pill and a quiet label.
+    document.querySelectorAll('.clay-card-kicker').forEach(function (k) {
+      var m = (k.textContent || '').match(/^\s*(\d+)\s*\/\s*(.+?)\s*$/);
+      if (!m) return;
+      var num = document.createElement('span');
+      num.className = 'clay-card-kicker__num';
+      num.textContent = m[1];
+      var label = document.createElement('span');
+      label.className = 'clay-card-kicker__label';
+      label.textContent = m[2];
+      k.textContent = '';
+      k.appendChild(num);
+      k.appendChild(label);
+    });
+
+    var wrappers = cards.map(function (c) { return c.querySelector('.clay-service-card__wrapper'); });
+    var wide = window.matchMedia('(min-width: 1101px)');
+    // Once a card pins, it keeps zooming out as you scroll: it loses
+    // ZOOM_RATE of its size per viewport-height scrolled, down to MIN_SCALE.
+    // Older cards have been pinned longer, so they are always smaller.
+    var ZOOM_RATE = 0.085;
+    var MIN_SCALE = 0.6;
+    var list = cards[0].parentElement;
+    var ticking = false;
+
+    function reset() {
+      wrappers.forEach(function (w) {
+        if (!w) return;
+        w.style.transform = '';
+      });
+      cards.forEach(function (c) { c.classList.remove('is-active'); });
+    }
+
+    function update() {
+      ticking = false;
+      if (!wide.matches) { reset(); return; }
+
+      var winH = window.innerHeight;
+      var tops = cards.map(function (c) { return c.getBoundingClientRect().top; });
+      var stickTops = cards.map(function (c) { return parseFloat(getComputedStyle(c).top) || 0; });
+
+      // How far each card has travelled toward its sticky position (0..1).
+      var progress = tops.map(function (top, j) {
+        var span = Math.max(1, winH - stickTops[j]);
+        return Math.max(0, Math.min(1, (winH - top) / span));
+      });
+
+      // Scroll position at which each card pins (from its un-stuck layout
+      // position, which sticky does not change: list top + earlier cards).
+      var scrollY = window.pageYOffset;
+      var gap = parseFloat(getComputedStyle(list).rowGap) || 0;
+      var naturalTop = list.getBoundingClientRect().top + scrollY;
+
+      var active = 0;
+      progress.forEach(function (p, i) {
+        if (p >= 0.5) active = i;
+        var pinnedFor = scrollY - (naturalTop - stickTops[i]);
+        naturalTop += cards[i].offsetHeight + gap;
+        if (reduceMotion || !wrappers[i]) return;
+        var scale = Math.max(MIN_SCALE, 1 - ZOOM_RATE * Math.max(0, pinnedFor) / winH);
+        wrappers[i].style.transform = scale < 1 ? 'scale(' + scale.toFixed(4) + ')' : '';
+      });
+
+      cards.forEach(function (c, i) { c.classList.toggle('is-active', i === active); });
+    }
+
+    function onScroll() {
+      if (!ticking) {
+        ticking = true;
+        requestAnimationFrame(update);
+      }
+    }
+
+    window.addEventListener('scroll', onScroll, { passive: true });
+    window.addEventListener('resize', onScroll, { passive: true });
+    update();
+  })();
+
+  /* ==========================================================================
      4. INDUSTRIES DAPPER STAGE CONTROLLER (600vh Curtain Scrub)
      Curtain Layers 2 through 6 wipe up from translateY(100%) to 0%
      ========================================================================== */
@@ -281,9 +403,11 @@
     var slides = layersContainer.querySelectorAll('.clay-industry-slide');
     if (!slides.length) return;
 
-    // The sector total follows the number of sectors in the content.
+    // The sector total and scroll length follow the number of sectors in the
+    // content (100vh of scroll per sector; audit.css defaults to 600vh for 6).
     var counterTotal = document.getElementById('active-sector-total');
     if (counterTotal) counterTotal.textContent = pad(slides.length);
+    section.style.height = (slides.length * 100) + 'vh';
 
     var isTicking = false;
 

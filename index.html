@@ -142,11 +142,15 @@
             <div class="dapper-layer-bg is--3" id="dapper-layer-3"></div>
             <!-- Chapter 4: White Difference Layer hosting the Synthetic Cognition Video -->
             <div class="dapper-layer-bg is--4" id="dapper-layer-4">
+              <!-- VIDEO HIDDEN until a new video is ready. To restore, remove this comment wrapper
+                   and the one around #cognition-controls below. script.js skips the video logic
+                   automatically while these elements are absent.
               <div class="dapper-video-wrapper" id="dapper-video-wrapper">
                 <video id="cognition-video" class="dapper-video-element" playsinline preload="none">
                   <source src="{{pages.home.dapper.video.src}}" type="{{pages.home.dapper.video.type}}">
                 </video>
               </div>
+              END VIDEO HIDDEN -->
             </div>
             <!-- Chapter 5: Deep Midnight Layer for NIMBUS Finale -->
             <div class="dapper-layer-bg is--5" id="dapper-layer-5"></div>
@@ -183,7 +187,7 @@
             <div class="dapper-progress-bar" id="dapper-progress-bar"></div>
           </div>
 
-          <!-- Floating Video Controls (Revealed during Chapter 4) -->
+          <!-- VIDEO CONTROLS HIDDEN until a new video is ready (see note in #dapper-layer-4).
           <div class="cognition-controls dapper-controls" id="cognition-controls" aria-label="{{pages.home.dapper.controls.groupAriaLabel}}">
             <button type="button" class="cognition-btn" id="cognition-pause-btn" aria-label="{{pages.home.dapper.controls.pauseAriaLabel}}" title="{{pages.home.dapper.controls.pauseTitle}}">
               <svg class="icon-pause" viewBox="0 0 24 24" width="16" height="16" fill="currentColor">
@@ -210,6 +214,7 @@
             </button>
 
           </div>
+          END VIDEO CONTROLS HIDDEN -->
         </div>
       </div>
     </section>
@@ -273,5 +278,6 @@
   <script type="application/json" id="dapper-chapters">{{homepage.dapper.chapters|json}}</script>
   <script type="application/json" id="dapper-ui">{{pages.home.dapper|json}}</script>
   <script src="./script.js?v=2"></script>
+  <script src="./assets/favicon-scroll.js"></script>
 </body>
 </html>

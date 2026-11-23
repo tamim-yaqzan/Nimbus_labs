@@ -96,11 +96,11 @@
     <!-- ================= SERVICES & AUDIT LIST (Clay's Alternating Cards & 3D Stages) ================= -->
     <section class="clay-services-section" id="services-list">
       <div class="clay-container">
-        <h2 class="clay-visually-hidden">{{pages.audit.servicesHeading}}</h2>
+        <h2 class="clay-services-heading">{{pages.audit.servicesHeading}}</h2>
 
-        <ul class="clay-services-cards">
+        <ul class="clay-services-cards" style="--n: {{meta.servicesCount}}">
           {{#services}}
-          <li class="clay-service-card">
+          <li class="clay-service-card" style="--i: {{@index}}">
             <div class="clay-service-card__wrapper">
 
               <!-- Visual Column with Canvas Stage + Parallax Media -->
@@ -120,16 +120,22 @@
 
               <!-- Content Column -->
               <div class="clay-card-content">
-                <span class="clay-card-kicker">{{this.kicker}}</span>
-                <h2 class="clay-card-title">{{this.title}}</h2>
-                <p class="clay-card-text">
-                  {{this.text}}
-                </p>
-                <ul class="clay-card-sublist">
-                  {{#this.capabilities}}
-                  <li class="clay-sublist-item">{{this}}</li>
-                  {{/this.capabilities}}
-                </ul>
+                <div class="clay-card-head">
+                  <span class="clay-card-kicker">{{this.kicker}}</span>
+                  <h3 class="clay-card-title">{{this.title}}</h3>
+                  <p class="clay-card-text">{{this.text}}</p>
+                </div>
+                <div class="clay-card-foot">
+                  <ul class="clay-card-sublist">
+                    {{#this.capabilities}}
+                    <li class="clay-sublist-item">{{this}}</li>
+                    {{/this.capabilities}}
+                  </ul>
+                  <a href="{{pages.audit.footerCtaLink}}" class="clay-card-cta">
+                    <span>{{site.footer.ctaText}}</span>
+                    <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" aria-hidden="true"><path d="M5 12h14M12 5l7 7-7 7"/></svg>
+                  </a>
+                </div>
               </div>
 
             </div>
@@ -190,13 +196,12 @@
           <article class="clay-industry-slide is--{{this.index}}" data-bg="{{this.bg}}" data-color="{{this.color}}">
             <div class="clay-container industry-slide-container">
               <div class="industry-slide-content">
-                <span class="industry-chapter">{{this.chapter}}</span>
                 <h3 class="industry-name">{{this.name}}</h3>
-                <div class="industry-members">
+                <ul class="industry-members">
                   {{#this.members}}
-                  <span>{{this}}</span>
+                  <li>{{this}}</li>
                   {{/this.members}}
-                </div>
+                </ul>
               </div>
             </div>
           </article>
@@ -276,5 +281,6 @@
   </main>
 
   <script src="./audit.js"></script>
+  <script src="./assets/favicon-scroll.js"></script>
 </body>
 </html>

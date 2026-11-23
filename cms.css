@@ -763,6 +763,120 @@ body.cms-body {
   color: #fff;
 }
 
+/* Palette swatches */
+.cms-palette-swatches {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 8px;
+  margin-top: 6px;
+}
+
+.palette-swatch {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  padding: 5px 10px;
+  background: rgba(2, 0, 22, 0.6);
+  border: 1px solid var(--cms-border);
+  font-family: var(--cms-font-mono);
+  font-size: 10px;
+  color: var(--cms-text-muted);
+  cursor: pointer;
+  transition: all 0.15s ease;
+}
+
+.palette-swatch:hover {
+  border-color: var(--cms-cyan);
+  color: #fff;
+}
+
+.palette-swatch.is-active {
+  border-color: var(--cms-cyan);
+  background: rgba(94, 234, 212, 0.12);
+  color: var(--cms-cyan);
+}
+
+.swatch-color-dot {
+  width: 12px;
+  height: 12px;
+  border-radius: 2px !important;
+  display: inline-block;
+  border: 1px solid rgba(255, 255, 255, 0.3);
+}
+
+/* Rail search & mini thumbs */
+.rail-search-box {
+  padding: 8px 12px;
+  background: rgba(2, 0, 22, 0.35);
+  border-bottom: 1px solid var(--cms-border);
+}
+
+.rail-search-input {
+  width: 100%;
+  background: rgba(2, 0, 22, 0.6);
+  border: 1px solid var(--cms-border);
+  color: #fff;
+  padding: 6px 10px;
+  font-family: var(--cms-font-mono);
+  font-size: 11px;
+}
+
+.rail-search-input:focus {
+  outline: none;
+  border-color: var(--cms-cyan);
+}
+
+.prod-item-inner {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+}
+
+.prod-thumb-mini {
+  width: 36px;
+  height: 36px;
+  object-fit: cover;
+  border: 1px solid rgba(100, 89, 232, 0.25);
+  flex-shrink: 0;
+  background: #020016;
+}
+
+.prod-item-meta {
+  flex: 1;
+  min-width: 0;
+}
+
+.prod-item-actions {
+  display: flex;
+  flex-direction: column;
+  gap: 2px;
+  margin-left: 6px;
+}
+
+.prod-move-btn {
+  background: transparent;
+  border: none;
+  color: var(--cms-text-subtle);
+  font-size: 9px;
+  cursor: pointer;
+  padding: 2px 4px;
+  line-height: 1;
+}
+
+.prod-move-btn:hover {
+  color: var(--cms-cyan);
+}
+
+/* Image preview thumbnail */
+.prod-image-preview-thumb {
+  width: 80px;
+  height: 48px;
+  object-fit: cover;
+  border: 1px solid var(--cms-border-bright);
+  background: #000;
+  flex-shrink: 0;
+}
+
 /* ==========================================================================
    LIVE SLIDE SIMULATOR (WYSIWYG)
    ========================================================================== */
