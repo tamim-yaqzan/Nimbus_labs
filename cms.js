@@ -442,7 +442,7 @@
     renderAiStrip(ex.aiStrip || []);
     document.getElementById('btn-add-rail').onclick = function () { (ex.hero.rail || (ex.hero.rail = [])).push('NEW'); renderAll(); markDirty(); };
     document.getElementById('btn-add-explore-legal').onclick = function () { (ex.legal || (ex.legal = [])).push({ label: 'New', href: '#' }); renderAll(); markDirty(); };
-    document.getElementById('btn-add-ai-strip').onclick = function () { (ex.aiStrip || (ex.aiStrip = [])).push({ icon: 'chatgpt', name: 'New', badge: 'OEM DIRECT', category: 'New Category' }); renderAll(); markDirty(); };
+    document.getElementById('btn-add-ai-strip').onclick = function () { (ex.aiStrip || (ex.aiStrip = [])).push({ icon: 'enterprise', name: 'New', badge: 'SERVICE', category: 'New Category' }); renderAll(); markDirty(); };
   }
 
   // Ecosystem marquee items. `icon` selects a template-owned sprite symbol

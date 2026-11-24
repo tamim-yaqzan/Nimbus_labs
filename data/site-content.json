@@ -4,7 +4,7 @@
     "kicker": "PRODUCT CATALOGUE — 2026",
     "titleLineOne": "PRODUCTS",
     "titleLineTwo": "BUILT FOR REAL PROBLEMS",
-    "lead": "Seven products. Each one solving something real.",
+    "lead": "Built in-house. Each one solving something real.",
     "productsCount": 10,
     "servicesCount": 5,
     "note": "Verified catalogue"
@@ -59,12 +59,12 @@
         "title": "EXPLORE",
         "links": [
           {
-            "label": "Solutions",
+            "label": "Products",
             "href": "#products"
           },
           {
-            "label": "Partner",
-            "href": "#closing"
+            "label": "Audits & Services",
+            "href": "./services"
           },
           {
             "label": "Home",
@@ -73,19 +73,15 @@
         ]
       },
       {
-        "title": "RESOURCES",
+        "title": "COMPANY",
         "links": [
           {
-            "label": "Chapters",
+            "label": "What We Do",
             "href": "./#dapper"
           },
           {
-            "label": "Documentation",
-            "href": "./#hero"
-          },
-          {
-            "label": "Compute Grants",
-            "href": "./#contact"
+            "label": "Book Audit",
+            "href": "./services#contact"
           },
           {
             "label": "Contact",
@@ -93,64 +89,26 @@
             "external": true
           }
         ]
-      },
-      {
-        "title": "CONNECT",
-        "links": [
-          {
-            "label": "GitHub",
-            "href": "https://github.com",
-            "external": true
-          },
-          {
-            "label": "HuggingFace",
-            "href": "https://huggingface.co",
-            "external": true
-          },
-          {
-            "label": "X / Twitter",
-            "href": "https://twitter.com",
-            "external": true
-          },
-          {
-            "label": "LinkedIn",
-            "href": "https://linkedin.com",
-            "external": true
-          }
-        ]
       }
     ],
     "footer": {
       "brandTitle": "AI Labs by Nimbus",
-      "brandDesc": "Advancing humanity's intelligence horizon through computational neuroscience and synthetic reasoning.",
+      "brandDesc": "Enterprise AI, custom AI software, cloud and self-hosted AI, and OSINT & SOCMINT solutions, built around how your team works.",
       "brandLogo": "./assets/logo_tight.png",
       "copyrightYear": 2026,
       "copyrightText": "© 2026 AI Labs by Nimbus. All rights reserved.",
-      "copyrightSuffix": "· Frontier Artificial Intelligence & Autonomous Systems.",
+      "copyrightSuffix": "· Enterprise AI, Software & Intelligence Solutions.",
       "talkHeading": "Let’s build what you actually need.",
       "ctaText": "Book Diagnostic Audit",
       "email": "contact@ailabsnimbus.com",
       "emailHref": "mailto:contact@ailabsnimbus.com",
-      "note": "Direct access to Principal Systems Engineers · Under 24h response time",
-      "locationBadge": "Sovereign AI Engineering Hub",
+      "note": "Talk directly to the engineers who will build your system.",
+      "locationBadge": "Our Office",
       "locationCity": "Dhaka, Bangladesh",
       "locationAddressLine1": "Gulshan 2, Dhaka 1212",
-      "locationAddressLine2": "Bangladesh · Frontier Artificial Intelligence & Autonomous Systems",
+      "locationAddressLine2": "Bangladesh",
       "navAriaLabel": "Footer Nav",
-      "legal": [
-        {
-          "label": "Privacy",
-          "href": "#"
-        },
-        {
-          "label": "Terms",
-          "href": "#"
-        },
-        {
-          "label": "Security Proofs",
-          "href": "#"
-        }
-      ],
+      "legal": [],
       "statusText": "All Global Nimbus Clusters Operational",
       "tel": "+1 (415) 890-AI-LABS · Sovereign Consultations",
       "telHref": "tel:+14158902452",
@@ -172,15 +130,11 @@
           "href": "#services-industries"
         },
         {
-          "label": "Chapters",
+          "label": "What We Do",
           "href": "./#dapper"
-        },
-        {
-          "label": "CMS Matrix",
-          "href": "./cms"
         }
       ],
-      "locationAddress": "Gulshan 2, Dhaka 1212\nBangladesh · Frontier Artificial Intelligence & Autonomous Systems"
+      "locationAddress": "Gulshan 2, Dhaka 1212\nBangladesh"
     }
   },
   "products": [
@@ -487,23 +441,23 @@
     {
       "id": "service-01",
       "label": "Service 01",
-      "kicker": "01 / OPERATIONAL DIAGNOSTICS",
-      "title": "AI Business & Algorithmic Audit",
-      "summary": "14-day computational audit isolating precision bottlenecks and drafting an autonomous deployment blueprint.",
-      "detail": "Enterprise ROI and computational architecture are inseparable. We deconstruct workflow telemetry, isolate your single costliest operational bottleneck, and benchmark dedicated compute vs. token ROI before writing production code.",
-      "text": "Enterprise ROI and computational architecture are inseparable. Instead of locking into multi-million-dollar annual software subscriptions for generic feature bloat, our systems researchers embed across your operations to conduct an exhaustive 14-day computational audit. We deconstruct workflow telemetry, isolate the single costliest bottleneck, and engineer a dedicated autonomous blueprint targeted exclusively at eliminating it.",
+      "kicker": "01 / ENTERPRISE AI",
+      "title": "Enterprise AI Solutions",
+      "summary": "AI built into your operations: workflow automation, copilots and decision support for your teams.",
+      "detail": "We study how your teams work, find the tasks where AI saves the most time or money, and build it into the tools they already use.",
+      "text": "We start by learning how your teams actually work. Then we find the processes where AI will make a real difference, such as answering customer questions, processing documents or preparing reports, and build assistants and automations that fit into the tools your people already use.",
       "features": [
-        "Workflow latency profiling",
-        "Bottleneck decomposition & dependency trees",
-        "Token economics vs. dedicated compute ROI"
+        "Workflow automation",
+        "Team copilots & assistants",
+        "Decision support & reporting"
       ],
       "capabilities": [
-        "Workflow Latency Profiling",
-        "Bottleneck Decomposition & Trees",
-        "Token Economics vs. Dedicated Compute",
-        "Sovereign Air-Gap Feasibility",
-        "Algorithmic Proof-of-Concept",
-        "Executive Blueprint & Fixed Roadmap"
+        "Workflow Automation",
+        "Internal Knowledge Assistants",
+        "Document Processing",
+        "Customer Support Copilots",
+        "Reporting & Decision Support",
+        "ERP & CRM Integrations"
       ],
       "image": "./assets/explore/supercomputer.jpg",
       "figure": "orbs",
@@ -512,23 +466,23 @@
     {
       "id": "service-02",
       "label": "Service 02",
-      "kicker": "02 / DISTRIBUTED REASONING",
-      "title": "Autonomous Multi-Agent Swarms",
-      "summary": "Decentralized self-governing agent meshes executing concurrent operations with sub-second finality.",
-      "detail": "Specialized multi-agent swarms operating on continuous causal verification loops and symbolic proofs to eliminate probabilistic hallucination and drift.",
-      "text": "We engineer self-governing multi-agent meshes that independently negotiate, decompose complex multi-stage objectives, and execute concurrent operations with sub-second finality. Bypassing the probabilistic drift and hallucinations of generic LLMs, our agent swarms operate on continuous causal verification loops backed by formal symbolic proofs.",
+      "kicker": "02 / AI SOFTWARE",
+      "title": "AI Software Development",
+      "summary": "Custom AI-powered apps, agents and integrations, from prototype to production.",
+      "detail": "We design and build AI-powered web and mobile apps, agents and integrations, and take them from first prototype to production.",
+      "text": "Need a product that does not exist off the shelf? We design and build custom AI software: web and mobile apps, AI agents, chatbots and integrations with your existing systems. We start with a working prototype, test it with real users, then take it to production.",
       "features": [
-        "Decentralized peer-to-peer consensus",
-        "Dynamic autonomous task decomposition",
-        "Microsecond inter-agent event bus"
+        "Custom AI apps",
+        "AI agents & chatbots",
+        "API & system integrations"
       ],
       "capabilities": [
-        "Decentralized Peer Consensus",
-        "Autonomous Task Decomposition",
-        "Microsecond Inter-Agent Event Bus",
-        "Temporal Memory Graphs & Vectors",
-        "Deterministic Guardrails & Proofs",
-        "Self-Healing Orchestration"
+        "Web & Mobile AI Apps",
+        "AI Agents & Chatbots",
+        "LLM & API Integrations",
+        "Retrieval Over Your Data (RAG)",
+        "Prototype to Production",
+        "Testing & Maintenance"
       ],
       "image": "./assets/explore/neural.jpg",
       "figure": "flatCircles",
@@ -537,23 +491,23 @@
     {
       "id": "service-03",
       "label": "Service 03",
-      "kicker": "03 / PRIVATE INFRASTRUCTURE",
-      "title": "Sovereign AI Platforms",
-      "summary": "Turnkey air-gapped cognitive intelligence layers operating strictly inside private hardware perimeters.",
-      "detail": "Mission-critical inference clusters deployed on bare-metal hardware with zero external API leakage, bespoke weight fine-tuning, and audit-grade compliance.",
-      "text": "Mission-critical institutions cannot risk proprietary trade secrets, customer records, or classified telemetry on public multi-tenant cloud APIs. We deploy turnkey, air-gapped cognitive intelligence layers operating strictly inside your private hardware perimeters — delivering frontier model capabilities with zero external data egress and audit-grade compliance.",
+      "kicker": "03 / AI CLOUD",
+      "title": "AI Cloud Solutions",
+      "summary": "Scalable model training, inference and MLOps on the cloud of your choice.",
+      "detail": "We set up, scale and run AI workloads on the cloud provider you already use, with monitoring and cost control built in.",
+      "text": "We set up and run AI workloads on the cloud provider you already use. That covers model hosting, training and fine-tuning, data pipelines and MLOps, with monitoring and cost controls built in, so your AI scales with demand without surprise bills.",
       "features": [
-        "Air-gapped bare-metal cluster topology",
-        "Zero-egress network architecture",
-        "Bespoke domain weight adaptation"
+        "Model hosting & scaling",
+        "Training & fine-tuning",
+        "MLOps & monitoring"
       ],
       "capabilities": [
-        "Air-Gapped Bare-Metal Clusters",
-        "Zero-Egress Network Architecture",
-        "Bespoke Domain Weight Adaptation",
-        "On-Premise GPU Acceleration",
-        "SOC2, HIPAA & Defense Compliance",
-        "Native Legacy Database Bridges"
+        "Model Hosting & Inference",
+        "Training & Fine-Tuning",
+        "Data Pipelines",
+        "MLOps & CI/CD for Models",
+        "Monitoring & Alerting",
+        "Cloud Cost Optimization"
       ],
       "image": "./assets/explore/technology.jpg",
       "figure": "squares",
@@ -562,23 +516,23 @@
     {
       "id": "service-04",
       "label": "Service 04",
-      "kicker": "04 / SPATIAL INTELLIGENCE",
-      "title": "Synthetic Perception & Vision",
-      "summary": "High-dimensional spatial latent models and real-time edge visual inspection pipelines.",
-      "detail": "Bridging computational neuroscience with spatial intelligence to automate physical robotics, defense telemetry, and high-frequency visual inspection.",
-      "text": "Bridging computational neuroscience with spatial latent representations. We build real-time visual inspection pipelines, physical robotics sensor fusion, and generative synthetic dataset generators engineered for mission-critical automation across industrial robotics, sovereign defense systems, and high-frequency digital workflows.",
+      "kicker": "04 / SELF-HOSTED AI",
+      "title": "Self-Hosted AI",
+      "summary": "Private AI models on your own servers, so your data never leaves your infrastructure.",
+      "detail": "We deploy open AI models on your own servers or private cloud, so sensitive data stays inside your infrastructure.",
+      "text": "For organisations that cannot send sensitive data to public AI services, we deploy open-source AI models on your own servers or private cloud. Your data stays inside your infrastructure, you control access, and you are not tied to any single AI vendor.",
       "features": [
-        "Spatial latent world modeling",
-        "Sub-5ms edge visual inference",
-        "Generative synthetic training datasets"
+        "On-premise deployment",
+        "Private LLMs",
+        "No data leaves your network"
       ],
       "capabilities": [
-        "Spatial Latent Modeling",
-        "Sub-5ms Visual Inference",
-        "Generative Synthetic Training Data",
-        "Heterogeneous Multimodal Fusion",
-        "Real-Time Edge Anomaly Swarms",
-        "Hardened Robotics Edge Runtimes"
+        "On-Premise & Private Cloud Deployment",
+        "Open-Source LLM Setup",
+        "Fine-Tuning on Your Data",
+        "Secure Access Control",
+        "GPU Server Planning",
+        "Offline & Air-Gapped Options"
       ],
       "image": "./assets/explore/abstract.jpg",
       "figure": "doubleCone",
@@ -587,23 +541,23 @@
     {
       "id": "service-05",
       "label": "Service 05",
-      "kicker": "05 / BARE-METAL COMPUTE",
-      "title": "Accelerated Systems Engineering",
-      "summary": "Custom CUDA & Triton kernel compilation for 4-bit and 2-bit quantized neural runtimes.",
-      "detail": "Compiling neural intelligence directly onto silicon. Eliminates runtime frameworks, slashes inference power consumption by 80%, and yields sub-millisecond throughput.",
-      "text": "Deploying neural runtimes directly on bare silicon. We fuse custom CUDA and Triton kernels with stripped-down 4-bit and 2-bit quantized neural weights — eliminating bloated runtime frameworks, reducing inference compute costs by up to 80%, and providing guaranteed deterministic throughput under peak institutional workloads.",
+      "kicker": "05 / OSINT & SOCMINT",
+      "title": "OSINT & SOCMINT Solutions",
+      "summary": "Open-source & social media intelligence: monitoring, analysis & threat insight.",
+      "detail": "We build tools that collect and analyse publicly available information and social media to surface trends, risks and threats.",
+      "text": "We build intelligence tools that collect and analyse publicly available information, including news, websites and social media, to surface trends, risks and emerging threats. Teams get dashboards and alerts instead of manual searching, with collection kept within the law and platform terms.",
       "features": [
-        "4-bit & 2-bit quantized weight compilation",
-        "Custom CUDA, Triton & Metal kernel fusion",
-        "Bare-metal GPU VRAM optimization"
+        "Media & social monitoring",
+        "Trend & sentiment analysis",
+        "Threat alerts"
       ],
       "capabilities": [
-        "4-Bit & 2-Bit Quantized Weights",
-        "Custom CUDA & Triton Kernel Fusion",
-        "Bare-Metal GPU VRAM Optimization",
-        "Sub-Millisecond Execution Latency",
-        "Zero-Dependency Static Binaries",
-        "Audit-Grade Failover Checkpoints"
+        "News & Social Media Monitoring",
+        "Trend & Sentiment Analysis",
+        "Brand & Reputation Tracking",
+        "Disinformation Detection",
+        "Threat & Risk Alerts",
+        "Investigation Dashboards"
       ],
       "image": "./assets/explore/server.jpg",
       "figure": "corners",
@@ -624,62 +578,49 @@
       "chapters": [
         {
           "index": 1,
-          "name": "FRONTIER",
-          "caption": "DECENTRALIZED MULTI-AGENT SWARMS & MULTIMODAL REASONING ENGINES"
+          "name": "ENTERPRISE AI SOLUTIONS",
+          "caption": "AI BUILT INTO YOUR OPERATIONS: WORKFLOW AUTOMATION, COPILOTS & DECISION SUPPORT FOR YOUR TEAMS"
         },
         {
           "index": 2,
-          "name": "NEURAL",
-          "caption": "SUB-MILLISECOND INFERENCE ON HIGH-PERFORMANCE DISTRIBUTED GPU CLUSTERS"
+          "name": "AI SOFTWARE DEVELOPMENT",
+          "caption": "CUSTOM AI-POWERED APPS, AGENTS & INTEGRATIONS, FROM PROTOTYPE TO PRODUCTION"
         },
         {
           "index": 3,
-          "name": "AGENTIC",
-          "caption": "AUTONOMOUS TASK DECOMPOSITION, TOOL SYNTHESIS & DYNAMIC MEMORY GRAPHS"
+          "name": "AI CLOUD SOLUTIONS",
+          "caption": "SCALABLE MODEL TRAINING, INFERENCE & MLOPS ON THE CLOUD OF YOUR CHOICE"
         },
         {
           "index": 4,
-          "name": "COGNITION",
-          "caption": "HIGH-DIMENSIONAL SPATIAL LATENTS, REASONING TRACES & SYNTHETIC PERCEPTION"
+          "name": "SELF-HOSTED AI",
+          "caption": "PRIVATE AI MODELS ON YOUR OWN SERVERS, SO YOUR DATA NEVER LEAVES YOUR INFRASTRUCTURE"
         },
         {
           "index": 5,
-          "name": "NIMBUS",
-          "caption": "HYPER-SCALABLE FOUNDATIONAL INFRASTRUCTURE FOR ARTIFICIAL SUPERINTELLIGENCE"
+          "name": "OSINT & SOCMINT SOLUTIONS",
+          "caption": "OPEN-SOURCE & SOCIAL MEDIA INTELLIGENCE: MONITORING, ANALYSIS & THREAT INSIGHT"
         }
       ]
     },
     "footer": {
       "brandTitle": "AI Labs by Nimbus",
-      "brandDesc": "Advancing humanity's intelligence horizon through computational neuroscience and synthetic reasoning.",
+      "brandDesc": "Enterprise AI, custom AI software, cloud and self-hosted AI, and OSINT & SOCMINT solutions, built around how your team works.",
       "brandLogo": "./assets/logo_tight.png",
       "copyrightYear": 2026,
       "copyrightText": "© 2026 AI Labs by Nimbus. All rights reserved.",
-      "copyrightSuffix": "· Frontier Artificial Intelligence & Autonomous Systems.",
+      "copyrightSuffix": "· Enterprise AI, Software & Intelligence Solutions.",
       "talkHeading": "Let’s build what you actually need.",
       "ctaText": "Book Diagnostic Audit",
       "email": "contact@ailabsnimbus.com",
       "emailHref": "mailto:contact@ailabsnimbus.com",
-      "note": "Direct access to Principal Systems Engineers · Under 24h response time",
-      "locationBadge": "Sovereign AI Engineering Hub",
+      "note": "Talk directly to the engineers who will build your system.",
+      "locationBadge": "Our Office",
       "locationCity": "Dhaka, Bangladesh",
       "locationAddressLine1": "Gulshan 2, Dhaka 1212",
-      "locationAddressLine2": "Bangladesh · Frontier Artificial Intelligence & Autonomous Systems",
+      "locationAddressLine2": "Bangladesh",
       "navAriaLabel": "Footer Nav",
-      "legal": [
-        {
-          "label": "Privacy",
-          "href": "#"
-        },
-        {
-          "label": "Terms",
-          "href": "#"
-        },
-        {
-          "label": "Security Proofs",
-          "href": "#"
-        }
-      ],
+      "legal": [],
       "statusText": "All Global Nimbus Clusters Operational",
       "tel": "+1 (415) 890-AI-LABS · Sovereign Consultations",
       "telHref": "tel:+14158902452",
@@ -701,24 +642,20 @@
           "href": "#services-industries"
         },
         {
-          "label": "Chapters",
+          "label": "What We Do",
           "href": "./#dapper"
-        },
-        {
-          "label": "CMS Matrix",
-          "href": "./cms"
         }
       ],
-      "locationAddress": "Gulshan 2, Dhaka 1212\nBangladesh · Frontier Artificial Intelligence & Autonomous Systems"
+      "locationAddress": "Gulshan 2, Dhaka 1212\nBangladesh"
     }
   },
   "pages": {
     "home": {
       "meta": {
-        "title": "AI Labs by Nimbus | Frontier Artificial Intelligence & Autonomous Systems",
-        "description": "AI Labs by Nimbus researches next-generation generative models, collaborative multi-agent architectures, and hyper-scalable deep learning systems.",
-        "ogTitle": "AI Labs by Nimbus | Frontier Intelligence",
-        "ogDescription": "Pioneering the next frontier of artificial intelligence, autonomous agentic systems, and neural architectures.",
+        "title": "AI Labs by Nimbus | Enterprise AI, Software & Intelligence Solutions",
+        "description": "AI Labs by Nimbus builds enterprise AI solutions, custom AI software, AI cloud and self-hosted AI, and OSINT & SOCMINT solutions, shaped around how your team works.",
+        "ogTitle": "AI Labs by Nimbus | Enterprise AI & Intelligence Solutions",
+        "ogDescription": "We study how you work, then build only what you need: enterprise AI, custom AI software, cloud and self-hosted AI, and OSINT & SOCMINT.",
         "ogType": "website",
         "themeColor": "#020016"
       },
@@ -732,7 +669,7 @@
         "primaryBtnAriaLabel": "Explore Nimbus Labs products and services",
         "secondaryBtnText": "Book Audit",
         "secondaryBtnLink": "./audit",
-        "preloaderStatus": "INITIALIZING NIMBUS NEURAL CLUSTER...",
+        "preloaderStatus": "LOADING AI LABS BY NIMBUS...",
         "layers": [
           {
             "id": "layer-01",
@@ -851,8 +788,8 @@
         "chapterStart": "01",
         "chapterSeparator": "/",
         "captionPrefix": "//",
-        "tagTop": "FRONTIER COGNITION",
-        "tagBottom": "RESEARCH DOMAINS",
+        "tagTop": "WHAT WE DO",
+        "tagBottom": "OUR SERVICES",
         "tagPrefix": "CHAPTER 0",
         "tagSeparator": "//",
         "video": {
@@ -883,7 +820,7 @@
           "linkClass": "f-link"
         },
         {
-          "label": "Chapters",
+          "label": "What We Do",
           "href": "#dapper",
           "linkClass": "f-link"
         },
@@ -898,18 +835,18 @@
     "explore": {
       "meta": {
         "title": "Products // AI Labs by Nimbus",
-        "description": "Seven products built by AI Labs by Nimbus — media intelligence, spaced learning, sales automation, sports community, prompt tools, frontend devtools, and news retention.",
+        "description": "Products built in-house by AI Labs by Nimbus, from media intelligence and learning apps to restaurant, school and developer tools.",
         "ogTitle": "Products | AI Labs by Nimbus",
-        "ogDescription": "Seven real products solving real problems. Browse the Nimbus product catalogue.",
+        "ogDescription": "Real products solving real problems. Browse the AI Labs by Nimbus product catalogue.",
         "ogType": "website",
         "themeColor": "#020016"
       },
       "headerCtaHref": "./services#contact",
       "hero": {
-        "eyebrow": "Seven products. Each one solving something real.",
+        "eyebrow": "Built in-house. Each one solving something real.",
         "titleLineOne": "PRODUCTS",
         "titleLineTwo": "Built for Real Problems",
-        "lead": "Seven products. Each one solving something real.",
+        "lead": "Built in-house. Each one solving something real.",
         "primaryBtnText": "Browse Products",
         "primaryBtnLink": "#products",
         "secondaryBtnText": "Book Audit",
@@ -931,7 +868,7 @@
         ],
         "scrollHint": "Scroll to explore"
       },
-      "aiStripAriaLabel": "Supported AI Ecosystem",
+      "aiStripAriaLabel": "Our services",
       "a11y": {
         "bridgeAriaLabel": "Feature marquee",
         "railAriaLabel": "Product Showcase Links",
@@ -940,76 +877,34 @@
       },
       "aiStrip": [
         {
-          "icon": "chatgpt",
-          "name": "ChatGPT",
-          "badge": "OEM DIRECT",
-          "category": "Reasoning & Neural Chat"
+          "icon": "enterprise",
+          "name": "Enterprise AI",
+          "badge": "SERVICE",
+          "category": "Automation & Copilots"
         },
         {
-          "icon": "claude",
-          "name": "Claude",
-          "badge": "ENTERPRISE OEM",
-          "category": "Cognitive Architecture"
+          "icon": "software",
+          "name": "AI Software",
+          "badge": "SERVICE",
+          "category": "Custom Apps & Agents"
         },
         {
-          "icon": "gemini",
-          "name": "Gemini",
-          "badge": "OEM DIRECT",
-          "category": "Multimodal Foundation"
+          "icon": "cloud",
+          "name": "AI Cloud",
+          "badge": "SERVICE",
+          "category": "Hosting, Training & MLOps"
         },
         {
-          "icon": "perplexity",
-          "name": "Perplexity",
-          "badge": "OEM DIRECT",
-          "category": "Real-Time Synthesis"
+          "icon": "selfhosted",
+          "name": "Self-Hosted AI",
+          "badge": "SERVICE",
+          "category": "Private, On-Premise Models"
         },
         {
-          "icon": "grok",
-          "name": "Grok",
-          "badge": "ENTERPRISE OEM",
-          "category": "Real-Time Compute"
-        },
-        {
-          "icon": "cursor",
-          "name": "Cursor",
-          "badge": "OEM DIRECT",
-          "category": "AI Development Studio"
-        },
-        {
-          "icon": "copilot",
-          "name": "Copilot",
-          "badge": "ENTERPRISE OEM",
-          "category": "Pair Programming"
-        },
-        {
-          "icon": "devin-ai",
-          "name": "Devin AI",
-          "badge": "OEM DIRECT",
-          "category": "Autonomous Engineer"
-        },
-        {
-          "icon": "midjourney",
-          "name": "Midjourney",
-          "badge": "OEM DIRECT",
-          "category": "Visual Synthesis"
-        },
-        {
-          "icon": "adobe-firefly",
-          "name": "Adobe Firefly",
-          "badge": "ENTERPRISE OEM",
-          "category": "Commercial Media Models"
-        },
-        {
-          "icon": "grammarly",
-          "name": "Grammarly",
-          "badge": "OEM DIRECT",
-          "category": "Communication Engine"
-        },
-        {
-          "icon": "notebooklm",
-          "name": "NotebookLM",
-          "badge": "OEM DIRECT",
-          "category": "Grounded Research Core"
+          "icon": "osint",
+          "name": "OSINT & SOCMINT",
+          "badge": "SERVICE",
+          "category": "Monitoring & Threat Insight"
         }
       ],
       "noscript": {
@@ -1029,174 +924,165 @@
       },
       "closing": {
         "eyebrow": "Ready when you are",
-        "titleLineOne": "BUY AT OEM.",
-        "titleLineTwo": "Consult us before procuring enterprise AI.",
-        "sub": "The catalogue is still forming. Partner with the lab early to shape what comes next — or head back and keep exploring.",
-        "primaryBtnText": "Partner With Our Lab",
+        "titleLineOne": "TALK TO US FIRST.",
+        "titleLineTwo": "Get advice before you buy enterprise AI.",
+        "sub": "Tell us what you are trying to solve. We will help you choose, build or self-host the right setup, or point you to one of our products.",
+        "primaryBtnText": "Contact Us",
         "primaryBtnLink": "mailto:contact@ailabsnimbus.com",
-        "secondaryBtnText": "Back to Home",
-        "secondaryBtnLink": "./",
+        "secondaryBtnText": "Book Audit",
+        "secondaryBtnLink": "./services#contact",
         "tertiaryBtnText": "Back to Home",
         "tertiaryBtnLink": "./",
         "title": "See further. Build with <em>Nimbus</em>."
       },
-      "legal": [
-        {
-          "label": "Security Proofs",
-          "href": "mailto:contact@ailabsnimbus.com"
-        },
-        {
-          "label": "Advisory Terms",
-          "href": "mailto:contact@ailabsnimbus.com"
-        }
-      ],
-      "footerNote": "· Explore page — placeholder content."
+      "legal": [],
+      "footerNote": ""
     },
     "audit": {
       "meta": {
         "title": "Services & Business Audit // AI Labs by Nimbus",
-        "description": "AI Labs by Nimbus delivers full-spectrum AI product strategy, operational business audits, autonomous multi-agent systems, sovereign intelligence, and accelerated systems engineering.",
+        "description": "Enterprise AI solutions, AI software development, AI cloud solutions, self-hosted AI and OSINT & SOCMINT solutions from AI Labs by Nimbus.",
         "ogTitle": "Services & Business Audit // AI Labs by Nimbus",
-        "ogDescription": "A full-spectrum enterprise AI innovation and autonomous systems engineering partner. We study how you work, then build only what you need.",
+        "ogDescription": "We study how you work, then build only what you need: enterprise AI, custom AI software, cloud and self-hosted AI, and OSINT & SOCMINT.",
         "ogType": "website",
         "themeColor": "#ffffff"
       },
       "headerCtaHref": "#contact",
-      "servicesHeading": "Services and Audit Spectrum",
+      "servicesHeading": "What we do",
       "hero": {
         "titleLines": [
-          "Autonomous AI",
-          "engineering partner"
+          "AI solutions",
+          "built around your work"
         ],
-        "lead": "Skip bloated SaaS and per-seat taxes. We audit your workflows, isolate your costliest bottleneck, and engineer dedicated autonomous systems to eliminate it — with 100% sovereign code ownership.",
+        "lead": "We study how your team works, find where AI will actually help, and build it, from enterprise copilots and custom software to self-hosted models you fully own.",
         "proof": [
-          "14-Day Diagnostic Audit",
-          "100% Sovereign Air-Gap Feasibility",
-          "Bare-Metal Silicon Compilation",
-          "Zero Vendor Lock-In"
+          "Enterprise AI",
+          "Custom AI Software",
+          "Cloud or Self-Hosted",
+          "You Own the Code"
         ]
       },
       "framework": {
-        "kicker": "OUR ENGAGEMENT FRAMEWORK",
-        "title": "From diagnosis to sovereign deployment.",
-        "lead": "We reject 12-month software consulting retainers. We operate on a fixed-scope, high-velocity 3-stage delivery lifecycle designed to produce working systems, not slides.",
+        "kicker": "HOW WE WORK",
+        "title": "From first call to a working system.",
+        "lead": "A clear, fixed-scope process built to deliver working software, not slide decks.",
         "stages": [
           {
             "index": 1,
             "step": "STAGE 01",
-            "title": "The 14-Day Audit",
-            "text": "We embed with your engineering leadership, deconstruct workflow telemetry, benchmark latency sinkholes, and calculate dedicated compute vs. token ROI before writing production code."
+            "title": "Discovery & Audit",
+            "text": "We learn how your team works, map your data and workflows, and pinpoint where AI will save the most time or money."
           },
           {
             "index": 2,
             "step": "STAGE 02",
-            "title": "The 30-Day Sandbox",
-            "text": "We deploy an air-gapped prototype targeted directly at the isolated bottleneck in your private staging environment. Real operational stress tests with zero synthetic fluff."
+            "title": "Working Prototype",
+            "text": "We build a working prototype on your real data in a safe test environment, so you see results before committing further."
           },
           {
             "index": 3,
             "step": "STAGE 03",
-            "title": "Sovereign Production Handoff",
-            "text": "Turnkey bare-metal deployment inside your private perimeter. 100% source code, model weights, and architectural documentation handoff with zero recurring vendor lock-in."
+            "title": "Launch & Handover",
+            "text": "We deploy to your cloud or your own servers, train your team, and hand over the source code and documentation."
           }
         ]
       },
       "industries": {
-        "kicker": "// IMPACT DOMAINS · FIELD TELEMETRY",
-        "title": "Mission-Critical Sectors",
-        "ariaLabel": "Mission-Critical Sectors",
-        "lead": "We partner with forward-thinking enterprises, sovereign institutions, and quantitative funds facing complex computational bottlenecks.",
+        "kicker": "// INDUSTRIES WE SERVE",
+        "title": "Who we build for",
+        "ariaLabel": "Industries we serve",
+        "lead": "We work with teams that have real operational problems and data worth putting to work.",
         "sectorStart": "01",
         "sectorCount": 6,
         "sectors": [
           {
             "index": 1,
-            "chapter": "// SECTOR 01 / 06 — CAPITAL MARKETS",
-            "name": "Fintech & Quantitative Finance",
+            "chapter": "// SECTOR 01 / 06 — FINANCE",
+            "name": "Finance & Fintech",
             "bg": "#2f122e",
             "color": "#ffffff",
             "members": [
-              "High-Frequency Execution Kernels",
-              "Autonomous Risk Modeling",
-              "Deterministic Compliance Proofs",
-              "Real-Time Fraud Swarms",
-              "Algorithmic Portfolio Synthesis",
-              "Sub-Millisecond Settlement Telemetry"
+              "Fraud & Anomaly Detection",
+              "Document & KYC Processing",
+              "Risk Reporting Automation",
+              "Customer Support Copilots",
+              "Compliance Monitoring",
+              "Market & News Monitoring"
             ]
           },
           {
             "index": 2,
-            "chapter": "// SECTOR 02 / 06 — ENTERPRISE SYSTEMS",
-            "name": "B2B & Enterprise Infrastructure",
+            "chapter": "// SECTOR 02 / 06 — ENTERPRISE",
+            "name": "Enterprise & B2B",
             "bg": "#e25c80",
             "color": "#ffffff",
             "members": [
-              "Autonomous Workflow Mesh",
-              "Proprietary Knowledge Bridges",
-              "Air-Gapped Operational Copilots",
-              "Automated ERP Synthesis",
-              "Deterministic Document Verification",
-              "Zero-Cloud API Migrations"
+              "Internal Knowledge Assistants",
+              "Workflow Automation",
+              "ERP & CRM Integrations",
+              "Document Processing",
+              "Sales & Support Copilots",
+              "Reporting Dashboards"
             ]
           },
           {
             "index": 3,
-            "chapter": "// SECTOR 03 / 06 — DEFENSE & SECURITY",
-            "name": "Sovereign & Critical Infrastructure",
+            "chapter": "// SECTOR 03 / 06 — GOVERNMENT & SECURITY",
+            "name": "Government & Security",
             "bg": "#6459e8",
             "color": "#ffffff",
             "members": [
-              "Air-Gapped SCADA Telemetry",
-              "Offline-First Edge Controllers",
-              "Hardware-Isolated Runtimes",
-              "Formal Mathematical Proofs",
-              "Zero-Leak Threat Elimination",
-              "Grid Load Balancing"
+              "Self-Hosted AI for Sensitive Data",
+              "OSINT Investigations",
+              "Social Media Monitoring",
+              "Threat Intelligence",
+              "Disinformation Tracking",
+              "Secure On-Premise Deployments"
             ]
           },
           {
             "index": 4,
-            "chapter": "// SECTOR 04 / 06 — HARDWARE ACCELERATION",
-            "name": "Technology & Compute Platforms",
+            "chapter": "// SECTOR 04 / 06 — TECHNOLOGY",
+            "name": "Technology & SaaS",
             "bg": "#0f3d3e",
             "color": "#ffffff",
             "members": [
-              "Distributed GPU Orchestration",
-              "Sub-5ms Inference Compilation",
-              "Decentralized Consensus Buses",
-              "Quantized Neural Kernels",
-              "Zero-Dependency Static Architectures",
-              "Bare-Metal Optimization"
+              "AI Features in Your Product",
+              "LLM Integrations",
+              "Model Hosting & Scaling",
+              "MLOps Pipelines",
+              "Cost & Latency Optimization",
+              "AI Agents & Chatbots"
             ]
           },
           {
             "index": 5,
-            "chapter": "// SECTOR 05 / 06 — BIOMEDICAL COGNITION",
+            "chapter": "// SECTOR 05 / 06 — HEALTHCARE",
             "name": "Healthcare & Life Sciences",
             "bg": "#3a102a",
             "color": "#ffffff",
             "members": [
-              "Computational Neuroscience",
-              "Air-Gapped Clinical Trial Telemetry",
-              "Protein Latent Modeling",
-              "HIPAA Sovereign Perimeters",
-              "Diagnostic Review Acceleration",
-              "Zero-Data-Retention Pipelines"
+              "Clinical Document Summaries",
+              "Private Patient-Data Processing",
+              "Intake & Scheduling Automation",
+              "Medical Knowledge Search",
+              "Self-Hosted Models for Privacy",
+              "Research Data Analysis"
             ]
           },
           {
             "index": 6,
-            "chapter": "// SECTOR 06 / 06 — ROBOTICS & MOBILITY",
-            "name": "Autonomous Logistics & Mobility",
+            "chapter": "// SECTOR 06 / 06 — LOGISTICS & RETAIL",
+            "name": "Logistics & Retail",
             "bg": "#020016",
             "color": "#ffffff",
             "members": [
-              "Swarm Routing Consensus",
-              "Real-Time Fleet Balancing",
-              "Decentralized Warehouse Depots",
-              "Predictive Latency Resolution",
-              "Sub-Second Dispatch Loops",
-              "Fault-Tolerant Checkpoints"
+              "Demand Forecasting",
+              "Route & Fleet Planning",
+              "Inventory Automation",
+              "Customer Service Chatbots",
+              "Brand & Review Monitoring",
+              "Operations Dashboards"
             ]
           }
         ]
@@ -1226,7 +1112,7 @@
           "linkClass": "f-link"
         },
         {
-          "label": "Chapters",
+          "label": "What We Do",
           "href": "./#dapper",
           "linkClass": "f-link"
         },
