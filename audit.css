@@ -27,6 +27,11 @@
   padding: 0;
 }
 
+html {
+  overflow-x: clip;
+  max-width: 100%;
+}
+
 body.clay-body {
   background-color: var(--clay-white);
   color: var(--clay-black);
@@ -36,6 +41,7 @@ body.clay-body {
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
   overflow-x: clip;
+  max-width: 100%;
 }
 
 .clay-container {
@@ -280,7 +286,7 @@ body.clay-body {
 
 .clay-hero-title {
   font-family: var(--clay-font);
-  font-size: clamp(52px, 7.8vw, 108px);
+  font-size: clamp(36px, 9.5vw, 108px);
   font-weight: 700;
   line-height: 0.98;
   letter-spacing: -0.04em;
@@ -754,17 +760,17 @@ body.clay-body {
 
 .clay-framework-title {
   font-family: var(--clay-font);
-  font-size: clamp(38px, 4.6vw, 64px);
+  font-size: clamp(30px, 8vw, 64px);
   font-weight: 700;
   letter-spacing: -0.03em;
   color: var(--clay-black);
-  line-height: 1.05;
+  line-height: 1.06;
   margin-bottom: 18px;
 }
 
 .clay-framework-desc {
   font-family: var(--clay-font);
-  font-size: 20px;
+  font-size: clamp(16px, 4.2vw, 20px);
   line-height: 1.5;
   color: var(--clay-grey-600);
   max-width: 680px;
@@ -1091,7 +1097,7 @@ body.clay-body {
 
 .clay-talk-heading {
   font-family: var(--clay-font);
-  font-size: clamp(68px, 11vw, 136px);
+  font-size: clamp(44px, 11vw, 136px);
   font-weight: 700;
   letter-spacing: -0.04em;
   line-height: 0.95;
@@ -1103,17 +1109,19 @@ body.clay-body {
   display: flex;
   flex-direction: column;
   gap: 12px;
+  max-width: 100%;
 }
 
 .clay-talk-email {
   font-family: var(--clay-font);
-  font-size: clamp(26px, 3.8vw, 44px);
+  font-size: clamp(18px, 4.8vw, 44px);
   font-weight: 700;
   letter-spacing: -0.02em;
   color: var(--clay-black);
   text-decoration: underline;
   text-underline-offset: 8px;
   text-decoration-thickness: 2px;
+  overflow-wrap: anywhere;
   transition: opacity 0.2s ease, text-underline-offset 0.2s ease;
 }
 
@@ -1286,7 +1294,13 @@ body.clay-body {
 
 @media (max-width: 600px) {
   .clay-hero-section {
-    padding: 160px 0 70px;
+    padding: 140px 0 64px;
+  }
+  .clay-framework-section {
+    padding: 68px 0 92px;
+  }
+  .clay-framework-header {
+    margin-bottom: 44px;
   }
   .clay-card-sublist {
     grid-template-columns: 1fr;
