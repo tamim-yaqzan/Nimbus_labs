@@ -506,7 +506,11 @@
     }
 
     window.addEventListener('scroll', onScroll, { passive: true });
+    window.addEventListener('touchmove', onScroll, { passive: true });
     window.addEventListener('resize', onScroll, { passive: true });
+    if (window.visualViewport) {
+      window.visualViewport.addEventListener('resize', onScroll, { passive: true });
+    }
     updateDapperCurtains();
   })();
 
