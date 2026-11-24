@@ -35,7 +35,7 @@ body.clay-body {
   line-height: 1.6;
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
-  overflow-x: hidden;
+  overflow-x: clip;
 }
 
 .clay-container {
@@ -558,24 +558,22 @@ body.clay-body {
   align-items: center;
   align-self: flex-start;
   gap: 10px;
-  padding: 13px 20px;
-  border-radius: 10px;
+  padding: 13px 24px;
+  min-height: 48px;
+  border-radius: 999px;
   background: #0b0b12;
   color: #ffffff;
   font-family: var(--clay-font);
   font-size: 15px;
   font-weight: 600;
   text-decoration: none;
-  transition: background-color 0.25s ease;
-}
-
-.clay-card-cta svg {
-  transition: transform 0.25s ease;
+  transition: background-color 0.25s ease, transform 0.25s cubic-bezier(0.16, 1, 0.3, 1);
 }
 
 .clay-card-cta:hover,
 .clay-card-cta:focus-visible {
   background: #6459e8;
+  transform: translateY(-1px);
 }
 
 .clay-card-cta:hover svg {
@@ -583,157 +581,146 @@ body.clay-body {
 }
 
 /* ==========================================================================
-   STACKING CARDS (wide screens)
+   STACKING CARDS (ALL VIEWPORTS — DESKTOP & MOBILE)
    Each card sticks a step lower than the one before, so earlier cards stay
-   visible as a stack of badge strips. audit.js scales and dims covered cards.
+   visible as a stack of badge strips. audit.js scales covered cards smoothly.
    ========================================================================== */
-@media (min-width: 1101px) {
-  .clay-services-section {
-    background-color: #f4f4f6;
-    padding: 110px 0 140px;
-  }
+.clay-services-section {
+  background-color: #f4f4f6;
+  padding: clamp(64px, 8vw, 110px) 0 0;
+}
 
-  .clay-services-heading {
-    margin-bottom: 48px;
-  }
+.clay-services-heading {
+  margin-bottom: clamp(28px, 4vw, 48px);
+}
 
-  /* Cards run nearly edge to edge, like the reference */
-  .clay-services-section .clay-container {
-    max-width: none;
-    padding: 0 clamp(20px, 1.8vw, 36px);
-  }
+.clay-services-section .clay-container {
+  max-width: none;
+  padding: 0 clamp(16px, 1.8vw, 36px);
+}
 
-  .clay-services-section .clay-services-heading {
-    padding-left: clamp(24px, 3.4vw, 84px);
-  }
+.clay-services-section .clay-services-heading {
+  padding-left: clamp(8px, 3.4vw, 84px);
+}
 
-  .clay-services-cards {
-    /* The whole deck is sized from the viewport so the front card always
-       fits completely: card height = screen - top offset - all strips. */
-    --stack-top: 24px;
-    --stack-step: clamp(40px, 5.5vh, 56px);
-    --card-h: clamp(420px, calc(100svh - var(--stack-top) - (var(--n, 4) - 1) * var(--stack-step) - 16px), 820px);
-    /* Scroll distance a pinned card zooms out alone before the next arrives */
-    gap: 60vh;
-  }
+.clay-services-cards {
+  --stack-top: 24px;
+  --stack-step: clamp(40px, 5.5vh, 56px);
+  --card-h: clamp(420px, calc(100svh - var(--stack-top) - (var(--n, 4) - 1) * var(--stack-step) - 16px), 820px);
+  gap: 60vh;
+}
 
-  /* Spacer inside the list: sticky items can't travel past the list's
-     content box. With zero height it still adds one 60vh row gap after the
-     last card, which is the rest time for the finished stack. */
-  .clay-services-cards::after {
-    content: '';
-    display: block;
-    height: 0;
-  }
+/* Spacer inside the list: sticky items can't travel past the list's
+   content box. With zero height it still adds one gap after the last card. */
+.clay-services-cards::after {
+  content: '';
+  display: block;
+  height: 0;
+}
 
-  .clay-service-card {
-    position: sticky;
-    top: calc(var(--stack-top) + var(--i, 0) * var(--stack-step));
-  }
+.clay-service-card {
+  position: sticky;
+  top: calc(var(--stack-top) + var(--i, 0) * var(--stack-step));
+}
 
-  .clay-service-card__wrapper {
-    position: relative;
-    height: var(--card-h);
-    grid-template-columns: minmax(0, 0.92fr) minmax(0, 1.08fr);
-    gap: clamp(32px, 4vw, 72px);
-    align-items: stretch;
-    padding: 12px;
-    background: #ffffff;
-    border: 1px solid #e9e9ee;
-    border-radius: 24px;
-    box-shadow: 0 1px 2px rgba(16, 16, 32, 0.04), 0 -14px 36px -24px rgba(16, 16, 32, 0.16);
-    overflow: hidden;
-    transform-origin: top center;
-    will-change: transform;
-  }
+.clay-service-card__wrapper {
+  position: relative;
+  height: var(--card-h);
+  grid-template-columns: minmax(0, 0.92fr) minmax(0, 1.08fr);
+  gap: clamp(32px, 4vw, 72px);
+  align-items: stretch;
+  padding: 12px;
+  background: #ffffff;
+  border: 1px solid #e9e9ee;
+  border-radius: 24px;
+  box-shadow: 0 1px 2px rgba(16, 16, 32, 0.04), 0 -14px 36px -24px rgba(16, 16, 32, 0.16);
+  overflow: hidden;
+  transform-origin: top center;
+  will-change: transform;
+}
 
-  /* Faint dim on covered cards (opacity driven by --dim from audit.js) */
-  .clay-service-card__wrapper::after {
-    content: '';
-    position: absolute;
-    inset: 0;
-    border-radius: inherit;
-    background: #0b0b12;
-    opacity: var(--dim, 0);
-    pointer-events: none;
-  }
+/* Faint dim on covered cards (opacity driven by --dim from audit.js) */
+.clay-service-card__wrapper::after {
+  content: '';
+  position: absolute;
+  inset: 0;
+  border-radius: inherit;
+  background: #0b0b12;
+  opacity: var(--dim, 0);
+  pointer-events: none;
+}
 
-  /* Same layout on every card: text left, visual right */
-  .clay-service-card .clay-card-content,
-  .clay-service-card:nth-child(even) .clay-card-content { order: 1; }
-  .clay-service-card .clay-card-visual,
-  .clay-service-card:nth-child(even) .clay-card-visual { order: 2; }
+/* Same layout on every card: text left, visual right on wide screens */
+.clay-service-card .clay-card-content,
+.clay-service-card:nth-child(even) .clay-card-content { order: 1; }
+.clay-service-card .clay-card-visual,
+.clay-service-card:nth-child(even) .clay-card-visual { order: 2; }
 
-  .clay-card-content {
-    max-width: none;
-    justify-content: flex-start;
-    gap: clamp(16px, 3.6vh, 48px);
-    padding: 4px 0 clamp(16px, 3vh, 40px) 4px;
-  }
+.clay-card-content {
+  max-width: none;
+  justify-content: flex-start;
+  gap: clamp(16px, 3.6vh, 48px);
+  padding: 4px 0 clamp(16px, 3vh, 40px) 4px;
+}
 
-  /* Badge sits in the card corner; everything else is indented */
-  .clay-card-head > :not(.clay-card-kicker),
-  .clay-card-foot {
-    margin-left: clamp(24px, 3.4vw, 64px);
-  }
+.clay-card-head > :not(.clay-card-kicker),
+.clay-card-foot {
+  margin-left: clamp(24px, 3.4vw, 64px);
+}
 
-  .clay-card-title {
-    font-size: clamp(28px, min(3.4vw, 6.4vh), 62px);
-    line-height: 1.04;
-    margin-top: clamp(12px, 5vh, 72px);
-    max-width: 13ch;
-  }
+.clay-card-title {
+  font-size: clamp(28px, min(3.4vw, 6.4vh), 62px);
+  line-height: 1.04;
+  margin-top: clamp(12px, 5vh, 72px);
+  max-width: 13ch;
+}
 
-  .clay-card-text {
-    font-size: clamp(14px, 1.9vh, 16.5px);
-    line-height: 1.6;
-    color: #5f5f6b;
-    max-width: 44ch;
-  }
+.clay-card-text {
+  font-size: clamp(14px, 1.9vh, 16.5px);
+  line-height: 1.6;
+  color: #5f5f6b;
+  max-width: 44ch;
+}
 
-  /* Visual: dark panel with the animated line figure (audit.js draws it
-     in the canvas colour below). The stock photo is not used here. */
-  .clay-card-visual {
-    aspect-ratio: auto;
-    height: 100%;
-  }
+/* Visual: solid dark panel with animated geometric line figure */
+.clay-card-visual {
+  aspect-ratio: auto;
+  height: 100%;
+}
 
-  .clay-card-media-box {
-    width: 100%;
-    height: 100%;
-    border-radius: 18px;
-    background:
-      radial-gradient(60% 55% at 50% 50%, rgba(100, 89, 232, 0.2), transparent 70%),
-      #08070f;
-    box-shadow: none;
-  }
+.clay-card-media-box {
+  width: 100%;
+  height: 100%;
+  border-radius: 18px;
+  background: #0b0b12;
+  box-shadow: none;
+}
 
-  .clay-card-media-inner { display: none; }
+.clay-card-media-inner { display: none; }
 
-  .clay-card-stage {
-    display: flex;
-    inset: 0;
-    z-index: 3;
-  }
+.clay-card-stage {
+  display: flex;
+  inset: 0;
+  z-index: 3;
+}
 
-  .clay-stage-canvas {
-    color: #ffffff;
-    --figure-dot: #8f86ff;
-    --figure-strength: 3.2;
-    --figure-scale: 1.75;
-  }
+.clay-stage-canvas {
+  color: #ffffff;
+  --figure-dot: #6459e8;
+  --figure-strength: 3.2;
+  --figure-scale: 1.75;
+}
 
-  .clay-card-kicker__num { height: 24px; }
+.clay-card-kicker__num { height: 24px; }
 
-  .clay-card-head { gap: clamp(10px, 1.8vh, 16px); }
-  .clay-card-foot { gap: clamp(14px, 2.6vh, 28px); }
-  .clay-card-sublist { gap: clamp(8px, 1.3vh, 12px) 20px; }
-  .clay-card-cta { padding: clamp(10px, 1.5vh, 13px) 20px; }
+.clay-card-head { gap: clamp(10px, 1.8vh, 16px); }
+.clay-card-foot { gap: clamp(14px, 2.6vh, 28px); }
+.clay-card-sublist { gap: clamp(8px, 1.3vh, 12px) 20px; }
+.clay-card-cta { padding: clamp(10px, 1.5vh, 13px) 24px; }
 
-  .clay-service-card.is-active .clay-card-kicker__num {
-    background: #6459e8;
-    color: #ffffff;
-  }
+.clay-service-card.is-active .clay-card-kicker__num {
+  background: #6459e8;
+  color: #ffffff;
 }
 
 .clay-sublist-item:hover {
@@ -1270,16 +1257,6 @@ body.clay-body {
    RESPONSIVE DESIGN
    ========================================================================== */
 @media (max-width: 1100px) {
-  .clay-service-card__wrapper {
-    grid-template-columns: 1fr;
-    gap: 48px;
-  }
-  .clay-service-card:nth-child(even) .clay-card-visual {
-    order: 1;
-  }
-  .clay-service-card:nth-child(even) .clay-card-content {
-    order: 2;
-  }
   .clay-locations-list {
     grid-template-columns: repeat(3, 1fr);
     gap: 32px;
@@ -1305,9 +1282,6 @@ body.clay-body {
     grid-template-columns: 1fr;
     gap: 12px;
   }
-  .clay-services-cards {
-    gap: 110px;
-  }
 }
 
 @media (max-width: 600px) {
@@ -1327,11 +1301,11 @@ body.clay-body {
 }
 
 /* --------------------------------------------------------------------------
-   CURTAIN REVEAL (wide screens): after the card deck finishes stacking, the
+   CURTAIN REVEAL (all widths): after the card deck finishes stacking, the
    "How we work" section slides up over the pinned deck instead of leaving an
    empty band. It overlaps the deck's 60vh rest gap minus a short pause.
    -------------------------------------------------------------------------- */
-@media (min-width: 1101px) {
+@media all { /* phones too: the deck stacks at every width */
   .clay-services-section {
     padding-bottom: 0;
   }
@@ -1343,5 +1317,149 @@ body.clay-body {
     border-top: 0;
     border-radius: 32px 32px 0 0;
     box-shadow: 0 -24px 60px -24px rgba(16, 16, 32, 0.22);
+  }
+}
+
+/* --------------------------------------------------------------------------
+   STACKING CARDS ON PHONES / TABLETS (<= 1100px)
+   Same deck mechanics as wide screens (sticky + continuous zoom-out from
+   audit.js), with a compact single-column card that fits the viewport:
+   text first (badge stays in the visible strip), visual panel fills the rest.
+   -------------------------------------------------------------------------- */
+@media (max-width: 1100px) {
+  .clay-services-section {
+    background-color: #f4f4f6;
+    padding: 72px 0 0;
+  }
+
+  .clay-services-heading {
+    margin-bottom: 24px;
+  }
+
+  .clay-services-cards {
+    --stack-top: 12px;
+    --stack-step: 36px;
+    --card-h: calc(100svh - var(--stack-top) - (var(--n, 4) - 1) * var(--stack-step) - 12px);
+    gap: 60vh;
+  }
+
+  /* Sticky items can't pass the list's content box; this zero-height row
+     adds one 60vh gap after the last card as the stack's rest time. */
+  .clay-services-cards::after {
+    content: '';
+    display: block;
+    height: 0;
+  }
+
+  .clay-service-card {
+    position: sticky;
+    top: calc(var(--stack-top) + var(--i, 0) * var(--stack-step));
+  }
+
+  .clay-service-card__wrapper {
+    position: relative;
+    height: var(--card-h);
+    min-height: 420px;
+    display: flex;
+    flex-direction: column;
+    gap: 14px;
+    padding: 10px;
+    background: #ffffff;
+    border: 1px solid #e9e9ee;
+    border-radius: 18px;
+    box-shadow: 0 1px 2px rgba(16, 16, 32, 0.04), 0 -12px 30px -20px rgba(16, 16, 32, 0.2);
+    overflow: hidden;
+    transform-origin: top center;
+    will-change: transform;
+  }
+
+  /* Text first so the number badge sits at the top of every card */
+  .clay-service-card .clay-card-content,
+  .clay-service-card:nth-child(even) .clay-card-content { order: 1; }
+  .clay-service-card .clay-card-visual,
+  .clay-service-card:nth-child(even) .clay-card-visual { order: 2; }
+
+  .clay-card-content {
+    max-width: none;
+    gap: 14px;
+    padding: 4px 6px 0;
+  }
+
+  .clay-card-head { gap: 8px; }
+  .clay-card-foot { gap: 14px; }
+
+  .clay-card-kicker__num { height: 24px; }
+
+  .clay-card-title {
+    font-size: clamp(24px, 6.6vw, 34px);
+    line-height: 1.08;
+    /* Enough room under the badge that a card shrunk to 60% shows only its
+       badge in its 36px strip, not the top of its title. */
+    margin-top: 18px;
+  }
+
+  .clay-card-text {
+    font-size: 14px;
+    line-height: 1.5;
+    color: #5f5f6b;
+  }
+
+  .clay-card-sublist {
+    grid-template-columns: 1fr 1fr;
+    gap: 8px 12px;
+  }
+
+  .clay-sublist-item {
+    font-size: 13px;
+    gap: 8px;
+    line-height: 1.25;
+  }
+
+  .clay-sublist-item::before {
+    flex-basis: 22px;
+    height: 22px;
+    border-radius: 6px;
+    background-size: 12px;
+  }
+
+  .clay-card-cta {
+    padding: 10px 16px;
+    font-size: 14px;
+  }
+
+  /* Visual: dark panel with the animated line figure, filling what's left */
+  .clay-card-visual {
+    aspect-ratio: auto;
+    flex: 1 1 auto;
+    min-height: 0;
+    height: auto;
+  }
+
+  .clay-card-media-box {
+    width: 100%;
+    height: 100%;
+    border-radius: 12px;
+    background: #0b0b12;
+    box-shadow: none;
+  }
+
+  .clay-card-media-inner { display: none; }
+
+  .clay-card-stage {
+    display: flex;
+    inset: 0;
+    z-index: 3;
+  }
+
+  .clay-stage-canvas {
+    color: #ffffff;
+    --figure-dot: #8f86ff;
+    --figure-strength: 3.2;
+    --figure-scale: 1.6;
+  }
+
+  .clay-service-card.is-active .clay-card-kicker__num {
+    background: #6459e8;
+    color: #ffffff;
   }
 }

@@ -26,7 +26,7 @@
     // Stacking service cards pin near the top of the viewport, so the header
     // must stay out of the way while the deck is pinned, in both directions.
     var deckList = document.querySelector('.clay-services-cards');
-    var deckWide = window.matchMedia('(min-width: 1101px)');
+    var deckWide = window.matchMedia('all') /* stacking deck runs on phones too */;
 
     function deckIsPinned() {
       if (!deckList || !deckWide.matches || !deckList.firstElementChild) return false;
@@ -327,7 +327,7 @@
     });
 
     var wrappers = cards.map(function (c) { return c.querySelector('.clay-service-card__wrapper'); });
-    var wide = window.matchMedia('(min-width: 1101px)');
+    var wide = window.matchMedia('all') /* stacking deck runs on phones too */;
     // Once a card pins, it keeps zooming out as you scroll: it loses
     // ZOOM_RATE of its size per viewport-height scrolled, down to MIN_SCALE.
     // Older cards have been pinned longer, so they are always smaller.

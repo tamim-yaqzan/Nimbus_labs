@@ -691,30 +691,41 @@ button {
 }
 
 .btn-glow {
-  background: linear-gradient(135deg, #6459e8, #7c3aed);
-  color: #fff;
-  box-shadow: 0 0 35px rgba(100, 89, 232, 0.6);
+  background: #6459e8;
+  color: #ffffff;
+  border: 1px solid #6459e8;
+  box-shadow: none;
 }
 
 .btn-glow:hover {
-  transform: translateY(-3px) scale(1.02);
-  box-shadow: 0 0 45px rgba(100, 89, 232, 0.9);
+  transform: translateY(-2px);
+  background: #5247d6;
+  border-color: #5247d6;
+  box-shadow: none;
+}
+
+.btn-glow:active {
+  transform: translateY(0) scale(0.98);
 }
 
 .btn-glass {
   background: #ffffff;
-  border: 1px solid rgba(255, 255, 255, 0.95);
+  border: 1px solid #ffffff;
   color: #020016;
   font-weight: 700;
-  box-shadow: 0 4px 20px rgba(0, 0, 0, 0.25);
+  box-shadow: none;
 }
 
 .btn-glass:hover {
-  background: #f1f5f9;
-  border-color: #ffffff;
+  background: #e6e6ee;
+  border-color: #e6e6ee;
   color: #020016;
-  box-shadow: 0 6px 25px rgba(255, 255, 255, 0.35);
+  box-shadow: none;
   transform: translateY(-2px);
+}
+
+.btn-glass:active {
+  transform: translateY(0) scale(0.98);
 }
 
 .mobile-toggle {
@@ -1858,23 +1869,25 @@ button {
   #hero-btn-primary {
     order: 1;
     width: 100%;
-    max-width: 220px;
-    padding: 0.72rem 1.4rem;
-    font-size: 0.9rem;
+    max-width: 240px;
+    min-height: 48px;
+    padding: 0.82rem 1.5rem;
+    font-size: 0.92rem;
   }
 
-  /* Secondary button (Book Audit) below with solid white styling */
+  /* Secondary button (Book Audit) below with crisp solid fill */
   #hero-btn-secondary {
     order: 2;
     width: 100%;
-    max-width: 220px;
-    padding: 0.72rem 1.4rem;
-    font-size: 0.9rem;
-    background: #ffffff;
-    border: 1px solid #ffffff;
-    color: #020016;
-    font-weight: 700;
-    box-shadow: 0 4px 18px rgba(0, 0, 0, 0.3);
+    max-width: 240px;
+    min-height: 48px;
+    padding: 0.82rem 1.5rem;
+    font-size: 0.92rem;
+    background: #020016;
+    border: 1px solid #020016;
+    color: #ffffff;
+    font-weight: 600;
+    box-shadow: none;
   }
 
   .hero-buttons .btn svg {

@@ -1000,14 +1000,14 @@
         "chapterPrefix": "// CHAPTER 0",
         "chapterSeparator": " / ",
         "chapterDash": "—",
-        "deployLabel": "Deploy",
+        "experienceLabel": "Experience",
+        "meetingLabel": "Book a meeting",
         "exploreLabel": "Explore",
         "productFallback": "Product",
         "productCodePrefix": "PRD-",
         "defaultBrandTag": "PRODUCTS",
         "categoryFallback": "SYSTEMS",
-        "experienceLabel": "Experience",
-        "meetingLabel": "Book a meeting"
+        "deployLabel": "Deploy"
       },
       "closing": {
         "eyebrow": "Ready when you are",
