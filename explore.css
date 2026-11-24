@@ -433,11 +433,32 @@
   left: 0;
   width: 100%;
   height: 100vh;
+  height: 100dvh;
   overflow: hidden;
   display: flex;
   align-items: center;
   justify-content: center;
   z-index: 10;
+}
+
+/* Whisper-thin bottom progress rail across the product deck */
+.xp-dapper-progress {
+  position: absolute;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  height: 3px;
+  background: rgba(255, 255, 255, 0.12);
+  z-index: 40;
+  pointer-events: none;
+}
+
+.xp-dapper-progress__fill {
+  height: 100%;
+  width: 4%;
+  background: rgba(255, 255, 255, 0.92);
+  transition: width 0.12s linear;
+  will-change: width;
 }
 
 .xp-dapper-layers {
@@ -465,10 +486,13 @@
   transform: translate3d(0, 100%, 0);
 }
 
-/* Visible leading edge on each incoming curtain, so the wipe reads clearly
-   even when two neighbouring products have similar background colours. */
+/* Crisp leading edge ONLY while actively wiping in — never stacked at the bottom */
 .xp-dapper-layer + .xp-dapper-layer {
-  box-shadow: inset 0 1px 0 rgba(255, 255, 255, 0.18), 0 -24px 48px rgba(0, 0, 0, 0.28);
+  box-shadow: inset 0 1px 0 rgba(255, 255, 255, 0.14);
+}
+
+.xp-dapper-layer.is-wiping {
+  box-shadow: inset 0 1px 0 rgba(255, 255, 255, 0.22), 0 -18px 36px rgba(0, 0, 0, 0.22);
 }
 
 .xp-dapper-layer:first-child,
@@ -537,8 +561,10 @@
   width: 100%;
   max-width: 1400px;
   margin: 0 auto;
-  padding: clamp(64px, 9vh, 96px) clamp(24px, 5vw, 75px) clamp(24px, 4vh, 48px);
+  padding: clamp(68px, 9vh, 96px) clamp(24px, 5vw, 75px) clamp(28px, 4.5vh, 52px);
   box-sizing: border-box;
+  transform-origin: center center;
+  will-change: transform, opacity;
 }
 
 @media (min-width: 1900px) {
@@ -568,10 +594,9 @@
   order: 1;
 }
 
-/* Sharp-Edged Media Frame (Clay.global style, strictly 0px border-radius) */
+/* Refined Architectural Media Frame */
 .xp-dapper-media {
   width: 100%;
-  border-radius: 0 !important;
 }
 
 .xp-dapper-media__frame {
@@ -580,10 +605,10 @@
   aspect-ratio: 16 / 10;
   max-height: 48vh;
   overflow: hidden;
-  border-radius: 0 !important;
-  background: #000000;
-  border: 1px solid rgba(255, 255, 255, 0.15);
-  box-shadow: 0 25px 60px rgba(0, 0, 0, 0.35);
+  border-radius: 14px;
+  background: #060414;
+  border: 1px solid rgba(255, 255, 255, 0.16);
+  box-shadow: 0 24px 56px rgba(0, 0, 0, 0.36);
 }
 
 .xp-dapper-img {
@@ -591,21 +616,56 @@
   height: 100%;
   object-fit: cover;
   display: block;
-  border-radius: 0 !important;
-  filter: grayscale(85%) contrast(1.12) brightness(0.92);
-  transition: filter 0.7s cubic-bezier(0.16, 1, 0.3, 1), transform 0.7s cubic-bezier(0.16, 1, 0.3, 1);
+  border-radius: inherit;
+  filter: grayscale(40%) contrast(1.06) brightness(0.92);
+  transform: scale(1.05);
+  transition: filter 0.75s cubic-bezier(0.16, 1, 0.3, 1), transform 0.85s cubic-bezier(0.16, 1, 0.3, 1);
 }
 
+.xp-dapper-layer.is-active .xp-dapper-img,
 .xp-dapper-layer:hover .xp-dapper-img {
-  filter: grayscale(0%) contrast(1.05) brightness(1);
-  transform: scale(1.03);
+  filter: grayscale(0%) contrast(1.03) brightness(1);
+  transform: scale(1);
 }
+
+.xp-dapper-layer.is-active:hover .xp-dapper-img {
+  transform: scale(1.025);
+}
+
+/* Active slide content entrance choreography (works on touch & desktop) */
+.xp-dapper-meta,
+.xp-dapper-title,
+.xp-dapper-summary,
+.xp-dapper-desc,
+.xp-dapper-features,
+.xp-dapper-actions {
+  opacity: 0.82;
+  transform: translate3d(0, 14px, 0);
+  transition: opacity 0.45s cubic-bezier(0.16, 1, 0.3, 1), transform 0.55s cubic-bezier(0.16, 1, 0.3, 1);
+}
+
+.xp-dapper-layer.is-active .xp-dapper-meta,
+.xp-dapper-layer.is-active .xp-dapper-title,
+.xp-dapper-layer.is-active .xp-dapper-summary,
+.xp-dapper-layer.is-active .xp-dapper-desc,
+.xp-dapper-layer.is-active .xp-dapper-features,
+.xp-dapper-layer.is-active .xp-dapper-actions {
+  opacity: 1;
+  transform: translate3d(0, 0, 0);
+}
+
+.xp-dapper-layer.is-active .xp-dapper-meta { transition-delay: 0.04s; }
+.xp-dapper-layer.is-active .xp-dapper-title { transition-delay: 0.09s; }
+.xp-dapper-layer.is-active .xp-dapper-summary { transition-delay: 0.14s; }
+.xp-dapper-layer.is-active .xp-dapper-desc { transition-delay: 0.18s; }
+.xp-dapper-layer.is-active .xp-dapper-features { transition-delay: 0.22s; }
+.xp-dapper-layer.is-active .xp-dapper-actions { transition-delay: 0.27s; }
 
 /* Content Column & Typography */
 .xp-dapper-content {
   display: flex;
   flex-direction: column;
-  gap: 0.75rem;
+  gap: 0.8rem;
   max-width: 560px;
 }
 
@@ -619,37 +679,41 @@
 .xp-dapper-chapter {
   display: inline-flex;
   align-items: baseline;
-  gap: 0.6rem;
-  font-size: 0.875rem;
+  gap: 0.55rem;
+  font-size: 0.85rem;
   font-weight: 500;
 }
 
 .xp-dapper-count {
   font-family: var(--font-mono);
-  font-size: 0.75rem;
-  opacity: 0.7;
+  font-size: 0.74rem;
+  letter-spacing: 0.06em;
+  opacity: 0.75;
 }
 
 .xp-dapper-badge {
-  font-size: 0.75rem;
+  font-family: var(--font-mono);
+  font-size: 0.68rem;
   font-weight: 600;
-  padding: 0.2rem 0.6rem;
-  border-radius: 0 !important;
+  letter-spacing: 0.06em;
+  text-transform: uppercase;
+  padding: 0.24rem 0.72rem;
+  border-radius: 999px;
   border: 1px solid currentColor;
 }
 
 .xp-dapper-title {
   font-family: var(--font-heading);
-  font-size: clamp(2rem, 3.2vw, 2.9rem);
+  font-size: clamp(2rem, 3.2vw, 2.95rem);
   font-weight: 700;
   letter-spacing: -0.025em;
-  line-height: 1.1;
+  line-height: 1.08;
   margin: 0;
 }
 
 .xp-dapper-summary {
   font-size: clamp(1rem, 1.2vw, 1.125rem);
-  line-height: 1.45;
+  line-height: 1.48;
   font-weight: 500;
   margin: 0;
 }
@@ -660,61 +724,73 @@
   margin: 0;
 }
 
-/* Feature list: plain body text with small markers */
+/* Feature list: clean body text with soft circular markers */
 .xp-dapper-features {
   list-style: none;
   margin: 0.25rem 0 0 0;
   padding: 0;
   display: flex;
   flex-direction: column;
-  gap: 0.4rem;
+  gap: 0.45rem;
 }
 
 .xp-dapper-feature-item {
   position: relative;
   padding-left: 1.1rem;
-  font-size: 0.925rem;
-  line-height: 1.45;
+  font-size: 0.92rem;
+  line-height: 1.48;
 }
 
 .xp-dapper-feature-item::before {
   content: '';
   position: absolute;
   left: 0;
-  top: 0.6em;
+  top: 0.58em;
   width: 5px;
   height: 5px;
+  border-radius: 50%;
   background: currentColor;
-  opacity: 0.55;
+  opacity: 0.6;
 }
 
 .xp-dapper-actions {
-  margin-top: 0.75rem;
+  margin-top: 0.85rem;
 }
 
-/* Contrast-Inverted Action Buttons (Strictly 0px sharp edges) */
+/* Refined Pill Action Buttons (Unified with Hero & Navbar) */
 .xp-dapper-btn {
   display: inline-flex;
   align-items: center;
-  gap: 0.7rem;
-  padding: 0.8rem 1.5rem;
+  justify-content: center;
+  gap: 0.65rem;
+  padding: 0.85rem 1.7rem;
+  min-height: 48px;
   font-family: var(--font-heading);
   font-weight: 600;
-  font-size: 0.95rem;
-  letter-spacing: 0;
-  border-radius: 0 !important;
+  font-size: 0.94rem;
+  letter-spacing: 0.01em;
+  border-radius: 999px;
   text-decoration: none;
   border: 1px solid currentColor;
-  transition: all 0.3s cubic-bezier(0.16, 1, 0.3, 1);
-  box-shadow: 0 10px 30px rgba(0, 0, 0, 0.2);
+  transition: transform 0.25s cubic-bezier(0.16, 1, 0.3, 1),
+              background-color 0.25s ease,
+              color 0.25s ease,
+              border-color 0.25s ease,
+              box-shadow 0.25s ease;
+  box-shadow: 0 8px 24px rgba(0, 0, 0, 0.22);
 }
 
 .xp-dapper-btn svg {
-  transition: transform 0.3s ease;
+  transition: transform 0.25s cubic-bezier(0.16, 1, 0.3, 1);
+  flex-shrink: 0;
 }
 
 .xp-dapper-btn:hover {
   transform: translateY(-2px);
+}
+
+.xp-dapper-btn:active {
+  transform: translateY(0) scale(0.98);
 }
 
 .xp-dapper-btn:hover svg {
@@ -749,24 +825,25 @@
 
 .xp-dapper-layer[data-contrast="dark"] .xp-dapper-badge {
   border-color: rgba(255, 255, 255, 0.35);
-  background: rgba(255, 255, 255, 0.06);
+  background: transparent;
 }
 
 .xp-dapper-layer[data-contrast="dark"] .xp-dapper-feature-item {
-  color: rgba(255, 255, 255, 0.82);
+  color: rgba(255, 255, 255, 0.86);
 }
 
 .xp-dapper-layer[data-contrast="dark"] .xp-dapper-btn {
   background: #ffffff;
   color: #020016;
   border-color: #ffffff;
+  box-shadow: none;
 }
 
 .xp-dapper-layer[data-contrast="dark"] .xp-dapper-btn:hover {
-  background: transparent;
-  color: #ffffff;
-  border-color: #ffffff;
-  box-shadow: 0 14px 40px rgba(255, 255, 255, 0.2);
+  background: #e6e6ee;
+  color: #020016;
+  border-color: #e6e6ee;
+  box-shadow: none;
 }
 
 /* ── CONTRAST INVERSION: LIGHT THEMES ── */
@@ -825,10 +902,13 @@
 }
 
 @media (max-width: 960px) {
+  .xp-dapper-slide-shell {
+    padding: calc(var(--header-height, 70px) + 14px) 22px calc(32px + env(safe-area-inset-bottom, 0px));
+  }
   .xp-dapper-slide-grid,
   .xp-dapper-slide-grid--reverse {
     grid-template-columns: 1fr;
-    gap: 1.5rem;
+    gap: 1.25rem;
   }
   .xp-dapper-slide-grid--reverse .xp-dapper-media {
     order: 1;
@@ -837,13 +917,54 @@
     order: 2;
   }
   .xp-dapper-media__frame {
-    aspect-ratio: 16 / 9;
-    max-height: 32vh;
+    aspect-ratio: 16 / 10;
+    max-height: 28vh;
+    max-height: 27dvh;
+    border-radius: 12px;
+  }
+  .xp-dapper-content {
+    gap: 0.65rem;
+  }
+  .xp-dapper-meta {
+    gap: 0.55rem;
+  }
+  .xp-dapper-chapter {
+    font-size: 0.78rem;
   }
   .xp-dapper-title {
-    font-size: clamp(1.8rem, 6vw, 2.5rem);
+    font-size: clamp(1.75rem, 6.2vw, 2.35rem);
+  }
+  .xp-dapper-summary {
+    font-size: 0.96rem;
+    line-height: 1.45;
   }
   .xp-dapper-desc {
+    display: none;
+  }
+  .xp-dapper-features {
+    gap: 0.38rem;
+    margin-top: 0.15rem;
+  }
+  .xp-dapper-feature-item {
+    font-size: 0.86rem;
+    line-height: 1.42;
+    padding-left: 0.95rem;
+  }
+  .xp-dapper-actions {
+    margin-top: 0.85rem;
+  }
+  .xp-dapper-btn {
+    padding: 0.8rem 1.55rem;
+    font-size: 0.92rem;
+    min-height: 46px;
+  }
+}
+
+@media (max-width: 960px) and (max-height: 700px) {
+  .xp-dapper-media__frame {
+    max-height: 23dvh;
+  }
+  .xp-dapper-feature-item:nth-child(n + 5) {
     display: none;
   }
 }
@@ -1026,12 +1147,12 @@
   margin: 0 auto 2.6rem;
 }
 
-/* Closing Actions (Strictly matched with .xp-dapper-btn aesthetic: 0px sharp edges, 56px height) */
+/* Closing Actions (Unified pill buttons) */
 .oem-editorial-actions {
   display: flex;
   justify-content: center;
   align-items: center;
-  gap: 16px;
+  gap: 14px;
   flex-wrap: wrap;
 }
 
@@ -1039,32 +1160,34 @@
   background: #ffffff !important;
   color: #020016 !important;
   border: 1px solid #ffffff !important;
-  border-radius: 0 !important;
-  min-height: 56px;
-  box-shadow: 0 10px 30px rgba(0, 0, 0, 0.35);
+  border-radius: 999px !important;
+  min-height: 50px;
+  padding: 0.85rem 1.85rem;
+  box-shadow: none;
 }
 
 .xp-closing-btn--primary:hover {
-  background: transparent !important;
-  color: #ffffff !important;
-  border-color: #ffffff !important;
-  box-shadow: 0 14px 40px rgba(255, 255, 255, 0.2);
+  background: #e4e4ec !important;
+  color: #020016 !important;
+  border-color: #e4e4ec !important;
+  box-shadow: none;
 }
 
 .xp-closing-btn--ghost {
-  background: transparent !important;
+  background: #18181b !important;
   color: #ffffff !important;
-  border: 1px solid rgba(255, 255, 255, 0.32) !important;
-  border-radius: 0 !important;
-  min-height: 56px;
-  box-shadow: 0 10px 30px rgba(0, 0, 0, 0.2);
+  border: 1px solid #2e2e36 !important;
+  border-radius: 999px !important;
+  min-height: 50px;
+  padding: 0.85rem 1.75rem;
+  box-shadow: none;
 }
 
 .xp-closing-btn--ghost:hover {
-  background: rgba(255, 255, 255, 0.08) !important;
+  background: #27272a !important;
   color: #ffffff !important;
-  border-color: #ffffff !important;
-  box-shadow: 0 14px 40px rgba(255, 255, 255, 0.15);
+  border-color: #52525b !important;
+  box-shadow: none;
 }
 
 /* ---------------- FOOTER EXTRAS ---------------- */
@@ -1106,15 +1229,66 @@
 }
 
 @media screen and (max-width: 600px) {
-  .xp-hero { min-height: auto; padding-bottom: 3rem; }
-  .xp-hero__title { margin-top: 1.1rem; }
-  .xp-hero__cta .btn { flex: 1 1 auto; }
-  .xp-hero__meta { gap: 0.9rem; font-size: 0.68rem; }
+  .xp-hero {
+    min-height: 92svh;
+    padding-top: calc(var(--header-height) + 2.25rem);
+    padding-bottom: 4rem;
+    align-items: center;
+  }
+  .xp-hero__title {
+    margin: 1.35rem 0 1.25rem;
+    gap: 0.22em;
+  }
+  .xp-hero__title-line1 {
+    font-size: clamp(3rem, 13.5vw, 4.4rem);
+  }
+  .xp-hero__title-line2 {
+    font-size: clamp(1.1rem, 4.4vw, 1.4rem);
+  }
+  .xp-hero__lead {
+    font-size: 1rem;
+    line-height: 1.65;
+    margin-bottom: 2rem;
+  }
+  .xp-hero__cta {
+    flex-direction: column;
+    align-items: stretch;
+    max-width: 280px;
+    gap: 0.85rem;
+  }
+  .xp-hero__cta .btn {
+    width: 100%;
+    min-height: 50px;
+    padding: 0.85rem 1.5rem;
+    font-size: 0.94rem;
+  }
+  .xp-hero__meta {
+    gap: 0.65rem 1.1rem;
+    margin-top: 2.5rem;
+    font-size: 0.69rem;
+    color: rgba(226, 232, 240, 0.72);
+  }
+  .xp-hero__meta > span:first-child {
+    display: inline-flex;
+    align-items: center;
+  }
+  .xp-bridge {
+    padding: 2.25rem 0;
+  }
   .xp-rail { grid-template-columns: 1fr; }
   .xp-viewer__visual { min-height: 280px; border-radius: 20px; }
   .xp-viewer__panel { border-radius: 20px; }
   .xp-svc__head { grid-template-columns: auto 1fr auto; gap: 0.8rem; }
   .xp-hero__cue { display: none; }
+  .oem-editorial-actions {
+    flex-direction: column;
+    align-items: center;
+    gap: 12px;
+  }
+  .oem-editorial-actions .xp-dapper-btn {
+    width: 100%;
+    max-width: 300px;
+  }
 }
 
 /* ---------------- EXPLORE FOOTER POLISH (MONOCHROMATIC PURE BLACK) ---------------- */
@@ -1289,4 +1463,11 @@
   .xp-bridge__rail { animation: none !important; }
   .xp-reveal { opacity: 1; transform: none; transition: none; }
   .xp-svc__body, .xp-rail__tab, .xp-svc__head { transition: none; }
+  .xp-dapper-meta,
+  .xp-dapper-title,
+  .xp-dapper-summary,
+  .xp-dapper-desc,
+  .xp-dapper-features,
+  .xp-dapper-actions { opacity: 1; transform: none; transition: none; }
+  .xp-dapper-img { filter: none; transform: none; transition: none; }
 }

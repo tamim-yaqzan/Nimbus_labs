@@ -368,16 +368,37 @@
     section.style.setProperty('--dapper-scroll-height', (products.length * 100) + 'vh');
     section.style.height = (products.length * 100) + 'vh';
 
+    // Whisper-thin progress rail pinned to the bottom of the sticky stage
+    var stickyEl = document.getElementById('xp-dapper-sticky');
+    var progressFill = null;
+    if (stickyEl && !stickyEl.querySelector('.xp-dapper-progress')) {
+      var progressTrack = document.createElement('div');
+      progressTrack.className = 'xp-dapper-progress';
+      progressTrack.setAttribute('aria-hidden', 'true');
+      progressFill = document.createElement('div');
+      progressFill.className = 'xp-dapper-progress__fill';
+      progressTrack.appendChild(progressFill);
+      stickyEl.appendChild(progressTrack);
+    } else if (stickyEl) {
+      progressFill = stickyEl.querySelector('.xp-dapper-progress__fill');
+    }
+
+    var shellEls = layerEls.map(function (el) {
+      return el.querySelector('.xp-dapper-slide-shell');
+    });
+
     // ----------------------------------------------------
     // DAPPER STICKY CURTAIN SCRUB CONTROLLER
     // Layer 1 is stationary at translateY(0%)
     // Layers 2..N wipe up from 100% to 0% as scroll progresses
-    // Dynamic Navbar Brand Tag tracks current product title
+    // Active slide choreography + depth recession on covered slides
+    // Parked off-screen layers are hidden so shadows never bleed upward
     // ----------------------------------------------------
     var isTicking = false;
     var brandTag = document.getElementById('brand-status-tag');
     var currentTagText = UI.defaultBrandTag || 'PRODUCTS';
     var isUpdatingTag = false;
+    var lastActiveIdx = -1;
 
     function setBrandTag(text) {
       if (!brandTag || currentTagText === text || isUpdatingTag) return;
@@ -404,12 +425,65 @@
       var numChapters = products.length - 1;
       var chapterProgress = Math.min(numChapters, overallProgress * (numChapters + 0.35));
 
-      // Layers 2..N: each wipes up from 100% -> 0% during its chapter window
+      // Per-layer wipe progress (layer 0 is always 1)
+      var wipeProgress = [1];
       for (var li = 1; li < layerEls.length; li++) {
-        if (layerEls[li]) {
-          var lp = Math.max(0, Math.min(1, chapterProgress - (li - 1)));
-          layerEls[li].style.transform = 'translate3d(0px, ' + ((1 - lp) * 100).toFixed(2) + '%, 0px)';
+        var lp = Math.max(0, Math.min(1, chapterProgress - (li - 1)));
+        wipeProgress.push(lp);
+
+        var layer = layerEls[li];
+        if (!layer) continue;
+
+        if (lp <= 0.001) {
+          layer.style.transform = 'translate3d(0px, 100%, 0px)';
+          layer.style.visibility = 'hidden';
+          layer.style.pointerEvents = 'none';
+          layer.classList.remove('is-wiping');
+        } else {
+          layer.style.visibility = 'visible';
+          layer.style.transform = 'translate3d(0px, ' + ((1 - lp) * 100).toFixed(2) + '%, 0px)';
+          layer.classList.toggle('is-wiping', lp > 0.002 && lp < 0.998);
         }
+      }
+
+      // Determine active (topmost visible) slide index — activate early as slide rises in
+      var activeIdx = Math.max(0, Math.min(products.length - 1, Math.floor(chapterProgress + 0.65)));
+
+      // Apply depth recession to covered slides & pointer-events only to the active layer
+      for (var si = 0; si < layerEls.length; si++) {
+        var el = layerEls[si];
+        var shell = shellEls[si];
+        var nextLp = (si + 1 < wipeProgress.length) ? wipeProgress[si + 1] : 0;
+
+        if (si === 0) {
+          el.style.visibility = nextLp >= 0.999 ? 'hidden' : 'visible';
+        } else if (nextLp >= 0.999) {
+          el.style.visibility = 'hidden';
+        }
+
+        el.style.pointerEvents = (si === activeIdx) ? 'auto' : 'none';
+        el.classList.toggle('is-active', si === activeIdx);
+
+        if (shell && !reduceMotion) {
+          if (nextLp > 0.001 && nextLp < 0.999) {
+            var scale = 1 - (nextLp * 0.045);
+            var lift = -nextLp * 22;
+            var op = 1 - (nextLp * 0.35);
+            shell.style.transform = 'translate3d(0px, ' + lift.toFixed(1) + 'px, 0px) scale(' + scale.toFixed(4) + ')';
+            shell.style.opacity = op.toFixed(3);
+          } else if (nextLp <= 0.001) {
+            shell.style.transform = 'translate3d(0px, 0px, 0px) scale(1)';
+            shell.style.opacity = '1';
+          }
+        }
+      }
+
+      lastActiveIdx = activeIdx;
+
+      // Update progress bar
+      if (progressFill) {
+        var pct = numChapters > 0 ? ((chapterProgress / numChapters) * 100) : 100;
+        progressFill.style.width = Math.max(4, Math.min(100, pct)).toFixed(2) + '%';
       }
 
       // Dynamic Navbar Brand Tag:
@@ -417,7 +491,6 @@
       // Show active product title (uppercase) during Dapper slides
       var targetTag = UI.defaultBrandTag || 'PRODUCTS';
       if (rect.top <= 80 && rect.bottom > winH) {
-        var activeIdx = Math.max(0, Math.min(products.length - 1, Math.floor(chapterProgress + 0.5)));
         targetTag = (products[activeIdx].label || ((UI.productFallback || 'Product') + ' ' + (activeIdx + 1))).toUpperCase();
       }
       setBrandTag(targetTag);
