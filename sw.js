@@ -14,6 +14,8 @@ const STATIC_ASSETS = [
   './manifest.webmanifest',
   './assets/logo.png',
   './assets/logo_tight.png',
+  './assets/favicon.png',
+  './assets/favicon-scroll.js',
   './assets/icon-192.png',
   './assets/icon-512.png',
   './assets/hero-01.png',

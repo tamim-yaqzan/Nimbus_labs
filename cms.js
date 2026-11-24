@@ -414,7 +414,8 @@
     bind('explore-ui-chapter-prefix', u.chapterPrefix, function (v) { u.chapterPrefix = v; markDirty(); });
     bind('explore-ui-chapter-sep', u.chapterSeparator, function (v) { u.chapterSeparator = v; markDirty(); });
     bind('explore-ui-chapter-dash', u.chapterDash, function (v) { u.chapterDash = v; markDirty(); });
-    bind('explore-ui-deploy', u.deployLabel, function (v) { u.deployLabel = v; markDirty(); });
+    bind('explore-ui-experience', u.experienceLabel, function (v) { u.experienceLabel = v; markDirty(); });
+    bind('explore-ui-meeting', u.meetingLabel, function (v) { u.meetingLabel = v; markDirty(); });
     bind('explore-ui-explore', u.exploreLabel, function (v) { u.exploreLabel = v; markDirty(); });
     bind('explore-ui-product-fallback', u.productFallback, function (v) { u.productFallback = v; markDirty(); });
     bind('explore-ui-brand-tag', u.defaultBrandTag, function (v) { u.defaultBrandTag = v; markDirty(); });
@@ -442,7 +443,7 @@
     renderAiStrip(ex.aiStrip || []);
     document.getElementById('btn-add-rail').onclick = function () { (ex.hero.rail || (ex.hero.rail = [])).push('NEW'); renderAll(); markDirty(); };
     document.getElementById('btn-add-explore-legal').onclick = function () { (ex.legal || (ex.legal = [])).push({ label: 'New', href: '#' }); renderAll(); markDirty(); };
-    document.getElementById('btn-add-ai-strip').onclick = function () { (ex.aiStrip || (ex.aiStrip = [])).push({ icon: 'enterprise', name: 'New', badge: 'SERVICE', category: 'New Category' }); renderAll(); markDirty(); };
+    document.getElementById('btn-add-ai-strip').onclick = function () { (ex.aiStrip || (ex.aiStrip = [])).push({ icon: 'fortinet', name: 'New vendor', badge: 'OEM', category: 'New Category' }); renderAll(); markDirty(); };
   }
 
   // Ecosystem marquee items. `icon` selects a template-owned sprite symbol
@@ -524,54 +525,299 @@
   function bind(id, val, fn) { var el = document.getElementById(id); if (!el) return; el.value = val || ''; el.oninput = function () { fn(el.value); }; }
 
   /* products */
+  var productSearchTerm = '';
+
   function renderProducts() {
-    var list = document.getElementById('cms-product-list'); list.innerHTML = '';
-    (state.content.products || []).forEach(function (p, i) {
-      var btn = document.createElement('button'); btn.className = 'cms-list-item' + (i === state.activeProduct ? ' is-active' : '');
-      btn.textContent = p.label || p.id;
-      btn.onclick = function () { state.activeProduct = i; renderProducts(); renderProductForm(); };
-      list.appendChild(btn);
+    var list = document.getElementById('cms-product-list');
+    var counter = document.getElementById('prod-rail-counter');
+    var searchInput = document.getElementById('prod-search-input');
+    if (!list) return;
+
+    if (counter) {
+      var totalCount = (state.content.products || []).length;
+      counter.textContent = totalCount + ' ' + (totalCount === 1 ? 'PRODUCT' : 'PRODUCTS');
+    }
+
+    if (searchInput && !searchInput.dataset.bound) {
+      searchInput.dataset.bound = 'true';
+      searchInput.oninput = function () {
+        productSearchTerm = (searchInput.value || '').toLowerCase().trim();
+        renderProducts();
+      };
+    }
+
+    list.innerHTML = '';
+    var products = state.content.products || [];
+
+    products.forEach(function (p, i) {
+      // Filter search
+      if (productSearchTerm) {
+        var str = ((p.label || '') + ' ' + (p.category || '') + ' ' + (p.badge || '') + ' ' + (p.id || '')).toLowerCase();
+        if (str.indexOf(productSearchTerm) === -1) return;
+      }
+
+      var item = document.createElement('div');
+      item.className = 'cms-prod-item' + (i === state.activeProduct ? ' is-selected' : '');
+
+      var indexStr = (i + 1 < 10 ? '0' : '') + (i + 1);
+      var thumb = p.image || './assets/explore/supercomputer.jpg';
+      var statusClass = (p.status || '').toLowerCase().indexOf('live') !== -1 ? 'LIVE' : 'ACTIVE';
+
+      item.innerHTML =
+        '<div class="prod-item-inner">' +
+          '<img src="' + thumb + '" alt="" class="prod-thumb-mini" onerror="this.src=\'./assets/explore/supercomputer.jpg\'">' +
+          '<div class="prod-item-meta">' +
+            '<div class="prod-item-top">' +
+              '<span class="prod-item-index">// PRD ' + indexStr + '</span>' +
+              '<span class="prod-item-status">' + statusClass + '</span>' +
+            '</div>' +
+            '<div class="prod-item-name">' + esc(p.label || p.id) + '</div>' +
+            '<div class="prod-item-theme">' + esc(p.category || p.badge || p.theme || 'System') + '</div>' +
+          '</div>' +
+          '<div class="prod-item-actions">' +
+            '<button type="button" class="prod-move-btn" data-dir="up" title="Move Up">▲</button>' +
+            '<button type="button" class="prod-move-btn" data-dir="down" title="Move Down">▼</button>' +
+          '</div>' +
+        '</div>';
+
+      item.onclick = function (e) {
+        if (e.target.closest('.prod-move-btn')) return;
+        state.activeProduct = i;
+        renderProducts();
+        renderProductForm();
+      };
+
+      var upBtn = item.querySelector('[data-dir="up"]');
+      var downBtn = item.querySelector('[data-dir="down"]');
+      if (upBtn) {
+        upBtn.onclick = function (e) {
+          e.stopPropagation();
+          if (i === 0) return;
+          var tmp = state.content.products[i - 1];
+          state.content.products[i - 1] = p;
+          state.content.products[i] = tmp;
+          state.activeProduct = i - 1;
+          renderAll();
+          markDirty();
+        };
+      }
+      if (downBtn) {
+        downBtn.onclick = function (e) {
+          e.stopPropagation();
+          if (i >= state.content.products.length - 1) return;
+          var tmp = state.content.products[i + 1];
+          state.content.products[i + 1] = p;
+          state.content.products[i] = tmp;
+          state.activeProduct = i + 1;
+          renderAll();
+          markDirty();
+        };
+      }
+
+      list.appendChild(item);
     });
+
     document.getElementById('btn-add-product').onclick = function () {
-      state.content.products.push({ id: 'product-' + String(Date.now()).slice(-6), label: 'New Product', badge: '', category: '', status: 'Active Programme', summary: '', description: '', features: [], link: '#contact', image: './assets/explore/supercomputer.jpg', theme: 'plum', bg: '#2f122e', contrast: 'dark', visual: { palette: [], pattern: 'orbit', glyph: 'NIMBUS' } });
-      state.activeProduct = state.content.products.length - 1; renderAll(); markDirty();
+      var n = state.content.products.length + 1;
+      state.content.products.push({
+        id: 'product-' + String(Date.now()).slice(-6),
+        label: 'New Product ' + n,
+        badge: 'Enterprise AI',
+        category: 'Autonomous Systems',
+        status: 'Live',
+        summary: 'Brief headline summary of the solution.',
+        description: 'Comprehensive technical pitch description outlining architecture, capabilities and impact.',
+        features: ['Real-time autonomous processing', 'Zero-latency integration API', 'SOC-2 compliant data isolation'],
+        link: '#contact',
+        image: './assets/explore/supercomputer.jpg',
+        theme: 'plum',
+        bg: '#2f122e',
+        contrast: 'dark',
+        visual: { palette: ['#6459e8', '#5eead4', '#f43f5e'], pattern: 'orbit', glyph: 'NIMBUS' }
+      });
+      state.activeProduct = state.content.products.length - 1;
+      renderAll();
+      markDirty();
+      toast('New product added to catalogue', 'success');
     };
+
     document.getElementById('btn-duplicate-product').onclick = function () {
       var p = state.content.products[state.activeProduct];
-      var copy = JSON.parse(JSON.stringify(p)); copy.id = p.id + '-copy-' + Date.now().toString().slice(-4); copy.label = p.label + ' (Copy)';
-      state.content.products.splice(state.activeProduct + 1, 0, copy); state.activeProduct++; renderAll(); markDirty();
+      if (!p) return;
+      var copy = JSON.parse(JSON.stringify(p));
+      copy.id = p.id + '-copy-' + Date.now().toString().slice(-4);
+      copy.label = p.label + ' (Copy)';
+      state.content.products.splice(state.activeProduct + 1, 0, copy);
+      state.activeProduct++;
+      renderAll();
+      markDirty();
+      toast('Product duplicated', 'info');
     };
+
     document.getElementById('btn-delete-product').onclick = function () {
-      if (state.content.products.length <= 1) { toast('At least one product is required', 'error'); return; }
-      state.content.products.splice(state.activeProduct, 1); state.activeProduct = Math.max(0, state.activeProduct - 1); renderAll(); markDirty();
+      if (state.content.products.length <= 1) {
+        toast('At least one product is required in the catalogue', 'error');
+        return;
+      }
+      var doomed = state.content.products[state.activeProduct].label;
+      state.content.products.splice(state.activeProduct, 1);
+      state.activeProduct = Math.max(0, state.activeProduct - 1);
+      renderAll();
+      markDirty();
+      toast('Removed: ' + doomed, 'info');
     };
+
     renderProductForm();
   }
 
+  function updateProductSimulator(p) {
+    if (!p) return;
+    var idx = state.activeProduct;
+    var total = (state.content.products || []).length;
+    var pad = function (n) { return (n < 10 ? '0' : '') + n; };
+
+    var slide = document.getElementById('sim-slide-wrap');
+    if (slide) {
+      slide.style.backgroundColor = p.bg || '#2f122e';
+      slide.setAttribute('data-contrast', p.contrast || 'dark');
+    }
+
+    var img = document.getElementById('sim-img');
+    if (img) img.src = p.image || './assets/explore/supercomputer.jpg';
+
+    var hud = document.getElementById('sim-hud-code');
+    if (hud) hud.textContent = '// ' + (p.visual && p.visual.glyph ? p.visual.glyph : ('PRD-' + pad(idx + 1)));
+
+    var ch = document.getElementById('sim-chapter');
+    if (ch) ch.textContent = '// CHAPTER ' + pad(idx + 1) + ' / ' + pad(total) + ' — ' + (p.category ? p.category.toUpperCase() : 'SYSTEMS');
+
+    var bdg = document.getElementById('sim-badge');
+    if (bdg) bdg.textContent = (p.badge || 'FRONTIER AI').toUpperCase();
+
+    var title = document.getElementById('sim-title');
+    if (title) title.textContent = p.label || 'Product Title';
+
+    var sum = document.getElementById('sim-summary');
+    if (sum) sum.textContent = p.summary || '';
+
+    var desc = document.getElementById('sim-desc');
+    if (desc) desc.textContent = p.description || '';
+
+    var featBox = document.getElementById('sim-features');
+    if (featBox) {
+      featBox.innerHTML = '';
+      (p.features || []).forEach(function (f) {
+        var li = document.createElement('li');
+        li.textContent = '— ' + f;
+        featBox.appendChild(li);
+      });
+    }
+
+    var btn = document.getElementById('sim-btn-text');
+    if (btn) btn.textContent = 'DEPLOY ' + (p.label || 'PRODUCT').toUpperCase() + ' →';
+  }
+
   function renderProductForm() {
-    var p = state.content.products[state.activeProduct]; if (!p) return;
-    bind('prod-id', p.id, function (v) { p.id = v; renderProducts(); markDirty(); });
-    bind('prod-label', p.label, function (v) { p.label = v; renderProducts(); markDirty(); });
-    bind('prod-badge', p.badge, function (v) { p.badge = v; markDirty(); });
-    bind('prod-category', p.category, function (v) { p.category = v; markDirty(); });
-    bind('prod-status', p.status, function (v) { p.status = v; markDirty(); });
-    bind('prod-theme', p.theme, function (v) { p.theme = v; markDirty(); });
-    bind('prod-bg', p.bg, function (v) { p.bg = v; markDirty(); });
+    var p = state.content.products[state.activeProduct];
+    if (!p) return;
+
+    bind('prod-id', p.id, function (v) { p.id = v; renderProducts(); updateProductSimulator(p); markDirty(); });
+    bind('prod-label', p.label, function (v) { p.label = v; renderProducts(); updateProductSimulator(p); markDirty(); });
+    bind('prod-badge', p.badge, function (v) { p.badge = v; updateProductSimulator(p); markDirty(); });
+    bind('prod-category', p.category, function (v) { p.category = v; renderProducts(); updateProductSimulator(p); markDirty(); });
+    bind('prod-status', p.status, function (v) { p.status = v; renderProducts(); markDirty(); });
+    bind('prod-theme', p.theme, function (v) { p.theme = v; updateProductSimulator(p); markDirty(); });
+    bind('prod-bg', p.bg, function (v) { p.bg = v; updateProductSimulator(p); markDirty(); });
     bind('prod-link', p.link, function (v) { p.link = v; markDirty(); });
-    bind('prod-summary', p.summary, function (v) { p.summary = v; markDirty(); });
-    bind('prod-desc', p.description, function (v) { p.description = v; markDirty(); });
-    bind('prod-image', p.image, function (v) { p.image = v; markDirty(); });
-    document.getElementById('btn-pick-prod-image').onclick = function () { openMediaPicker(function (url) { p.image = url; document.getElementById('prod-image').value = url; markDirty(); }); };
-    var fc = document.getElementById('features-container'); fc.innerHTML = '';
+    bind('prod-summary', p.summary, function (v) { p.summary = v; updateProductSimulator(p); markDirty(); });
+    bind('prod-desc', p.description, function (v) { p.description = v; updateProductSimulator(p); markDirty(); });
+    bind('prod-image', p.image, function (v) {
+      p.image = v;
+      var thumb = document.getElementById('prod-image-preview');
+      if (thumb) thumb.src = v;
+      renderProducts();
+      updateProductSimulator(p);
+      markDirty();
+    });
+
+    var thumbEl = document.getElementById('prod-image-preview');
+    if (thumbEl) thumbEl.src = p.image || './assets/explore/supercomputer.jpg';
+
+    // Theme swatches
+    var swatches = document.querySelectorAll('#prod-palette-swatches .palette-swatch');
+    swatches.forEach(function (sw) {
+      var sTheme = sw.getAttribute('data-theme');
+      var sBg = sw.getAttribute('data-bg');
+      sw.classList.toggle('is-active', (p.theme === sTheme || p.bg === sBg));
+      sw.onclick = function () {
+        p.theme = sTheme;
+        p.bg = sBg;
+        setVal('prod-theme', sTheme);
+        setVal('prod-bg', sBg);
+        swatches.forEach(function (s) { s.classList.remove('is-active'); });
+        sw.classList.add('is-active');
+        updateProductSimulator(p);
+        markDirty();
+        toast('Applied theme: ' + sTheme, 'info');
+      };
+    });
+
+    // Image Picker
+    document.getElementById('btn-pick-prod-image').onclick = function () {
+      openMediaPicker(function (url) {
+        p.image = url;
+        document.getElementById('prod-image').value = url;
+        if (thumbEl) thumbEl.src = url;
+        renderProducts();
+        updateProductSimulator(p);
+        markDirty();
+      });
+    };
+
+    renderProductFeatures(p);
+    updateProductSimulator(p);
+  }
+
+  function renderProductFeatures(p) {
+    var fc = document.getElementById('features-container');
+    if (!fc) return;
+    fc.innerHTML = '';
     if (!p.features) p.features = [];
+
     p.features.forEach(function (f, i) {
-      var row = document.createElement('div'); row.className = 'cms-row';
-      row.innerHTML = '<input class="cms-input cms-input-long" value="' + esc(f) + '"><button class="cms-btn cms-btn-ghost cms-btn-sm">×</button>';
-      row.querySelector('input').oninput = function () { p.features[i] = row.querySelector('input').value; markDirty(); };
-      row.querySelector('button').onclick = function () { p.features.splice(i, 1); renderAll(); markDirty(); };
+      var row = document.createElement('div');
+      row.className = 'cms-feature-row';
+      row.innerHTML =
+        '<span class="feature-dash">—</span>' +
+        '<input class="cms-input" style="flex:1;" value="' + esc(f) + '">' +
+        '<button type="button" class="feature-del-btn" title="Delete feature">✕</button>';
+
+      var inp = row.querySelector('input');
+      inp.oninput = function () {
+        p.features[i] = inp.value;
+        updateProductSimulator(p);
+        markDirty();
+      };
+
+      row.querySelector('button').onclick = function () {
+        p.features.splice(i, 1);
+        renderProductFeatures(p);
+        updateProductSimulator(p);
+        markDirty();
+      };
+
       fc.appendChild(row);
     });
-    document.getElementById('btn-add-feature').onclick = function () { p.features.push('New feature'); renderAll(); markDirty(); };
+
+    var addBtn = document.getElementById('btn-add-feature');
+    if (addBtn) {
+      addBtn.onclick = function () {
+        p.features.push('High-throughput distributed architecture');
+        renderProductFeatures(p);
+        updateProductSimulator(p);
+        markDirty();
+      };
+    }
   }
 
   /* services */

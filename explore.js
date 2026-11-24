@@ -33,6 +33,22 @@
     }
   })();
 
+  function scrollToProductIndex(idx, isSmooth) {
+    var products = DATA.products || [];
+    var dapperSection = document.getElementById('products');
+    if (!dapperSection || idx < 0 || idx >= products.length) return;
+    var winH = window.innerHeight;
+    var totalScroll = dapperSection.offsetHeight - winH;
+    var sectionTop = dapperSection.getBoundingClientRect().top + window.pageYOffset;
+    var numChapters = products.length - 1;
+    var progress = (numChapters > 0) ? (idx / (numChapters + 0.35)) : 0;
+    var targetScrollY = sectionTop + (progress * totalScroll);
+    window.scrollTo({
+      top: targetScrollY,
+      behavior: isSmooth && !reduceMotion ? 'smooth' : 'auto'
+    });
+  }
+
   /* ------------------------------------------------------
      1. PRELOADER
      ------------------------------------------------------ */
@@ -262,13 +278,19 @@
 
     function pad(n) { return (n < 10 ? '0' : '') + n; }
 
-    var chapterPrefix = UI.chapterPrefix || '// CHAPTER 0';
-    var chapterSeparator = UI.chapterSeparator || ' / ';
-    var chapterDash = UI.chapterDash || '—';
-    var deployLabel = UI.deployLabel || 'Deploy';
+    var experienceLabel = UI.experienceLabel || 'Experience';
+    var meetingLabel = UI.meetingLabel || 'Book a meeting';
     var productFallback = UI.productFallback || 'Product';
-    var productCodePrefix = UI.productCodePrefix || 'PRD-';
-    var categoryFallback = UI.categoryFallback || 'SYSTEMS';
+
+    // Products with a real URL can be tried directly; the rest get a
+    // "Book a meeting" call to action that jumps to the contact footer.
+    function productAction(p) {
+      var link = p.link || '';
+      if (/^https?:\/\//i.test(link)) {
+        return { href: link, short: experienceLabel, text: experienceLabel + ' ' + (p.label || productFallback), attrs: ' target="_blank" rel="noopener noreferrer"' };
+      }
+      return { href: '#contact', short: meetingLabel, text: meetingLabel, attrs: '' };
+    }
     var productTotal = pad(products.length);
 
     var layerEls = [];
@@ -295,26 +317,19 @@
       if (p.features && p.features.length) {
         featuresHtml = '<ul class="xp-dapper-features">' +
           p.features.map(function (f) {
-            return '<li class="xp-dapper-feature-item">' +
-              '<span class="xp-dapper-dash" aria-hidden="true">&mdash;</span>' +
-              '<span>' + f + '</span>' +
-            '</li>';
+            return '<li class="xp-dapper-feature-item">' + f + '</li>';
           }).join('') +
         '</ul>';
       }
 
       var badgeHtml = p.badge ? '<span class="xp-dapper-badge">' + p.badge + '</span>' : '';
+      var action = productAction(p);
 
       var visualMediaHtml = '';
       if (p.image) {
         visualMediaHtml = '<div class="xp-dapper-media">' +
           '<div class="xp-dapper-media__frame">' +
             '<img src="' + p.image + '" alt="' + (p.label || productFallback) + '" class="xp-dapper-img" loading="lazy">' +
-            '<div class="xp-dapper-media__overlay"></div>' +
-            '<div class="xp-dapper-media-hud">' +
-              '<span>// ' + (p.visual && p.visual.glyph ? p.visual.glyph : (productCodePrefix + pad(i + 1))) + '</span>' +
-              '<span>' + pad(i + 1) + ' / ' + productTotal + '</span>' +
-            '</div>' +
           '</div>' +
         '</div>';
       }
@@ -325,7 +340,10 @@
             visualMediaHtml +
             '<div class="xp-dapper-content">' +
               '<div class="xp-dapper-meta">' +
-                '<span class="xp-dapper-chapter">' + chapterPrefix + (i + 1) + chapterSeparator + pad(products.length) + ' ' + chapterDash + ' ' + (p.category ? p.category.toUpperCase() : categoryFallback) + '</span>' +
+                '<span class="xp-dapper-chapter">' +
+                  '<span class="xp-dapper-count">' + pad(i + 1) + ' / ' + productTotal + '</span>' +
+                  (p.category || '') +
+                '</span>' +
                 badgeHtml +
               '</div>' +
                 '<h2 class="xp-dapper-title">' + (p.label || (productFallback + ' ' + pad(i + 1))) + '</h2>' +
@@ -333,8 +351,8 @@
               '<p class="xp-dapper-desc">' + (p.description || '') + '</p>' +
               featuresHtml +
               '<div class="xp-dapper-actions">' +
-                '<a href="' + (p.link || '#contact') + '" class="xp-dapper-btn" aria-label="' + deployLabel + ' ' + (p.label || productFallback) + '">' +
-                  '<span>' + deployLabel + ' ' + (p.label || productFallback) + '</span>' +
+                '<a href="' + action.href + '" class="xp-dapper-btn"' + action.attrs + '>' +
+                  '<span>' + action.text + '</span>' +
                   '<svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2"><path d="M5 12h14M12 5l7 7-7 7"/></svg>' +
                 '</a>' +
               '</div>' +
@@ -403,7 +421,9 @@
         targetTag = (products[activeIdx].label || ((UI.productFallback || 'Product') + ' ' + (activeIdx + 1))).toUpperCase();
       }
       setBrandTag(targetTag);
+
     }
+
 
     function onScroll() {
       if (!isTicking) {
@@ -443,21 +463,6 @@
       '</a>';
     });
     rail.innerHTML = html;
-
-    function scrollToProductIndex(idx, isSmooth) {
-      var dapperSection = document.getElementById('products');
-      if (!dapperSection || idx < 0 || idx >= products.length) return;
-      var winH = window.innerHeight;
-      var totalScroll = dapperSection.offsetHeight - winH;
-      var sectionTop = dapperSection.getBoundingClientRect().top + window.pageYOffset;
-      var numChapters = products.length - 1;
-      var progress = (numChapters > 0) ? (idx / (numChapters + 0.35)) : 0;
-      var targetScrollY = sectionTop + (progress * totalScroll);
-      window.scrollTo({
-        top: targetScrollY,
-        behavior: isSmooth && !reduceMotion ? 'smooth' : 'auto'
-      });
-    }
 
     // Smooth scroll directly to the exact pinned position for that product slide
     rail.addEventListener('click', function (e) {

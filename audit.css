@@ -469,6 +469,272 @@ body.clay-body {
   transition: transform 0.2s ease, color 0.2s ease;
 }
 
+/* ==========================================================================
+   SERVICE CARDS: shared details (all widths)
+   ========================================================================== */
+.clay-services-heading {
+  font-family: var(--clay-font);
+  font-size: clamp(28px, 3vw, 40px);
+  font-weight: 500;
+  letter-spacing: -0.025em;
+  line-height: 1.1;
+  color: #0b0b12;
+  margin: 0 0 40px;
+}
+
+.clay-card-head,
+.clay-card-foot {
+  display: flex;
+  flex-direction: column;
+  gap: 16px;
+}
+
+.clay-card-foot {
+  gap: 28px;
+}
+
+.clay-card-title {
+  font-weight: 500;
+  letter-spacing: -0.03em;
+  color: #0b0b12;
+}
+
+/* Number badge: JS splits "01 / SECURITY AUDITS" into pill + label */
+.clay-card-kicker {
+  display: inline-flex;
+  align-items: center;
+  gap: 12px;
+  font-family: var(--clay-font-mono);
+  font-size: 11.5px;
+  font-weight: 500;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+  color: #8a8a96;
+}
+
+.clay-card-kicker__num {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  min-width: 32px;
+  height: 26px;
+  padding: 0 8px;
+  border-radius: 7px;
+  background: #f0f0f3;
+  color: #2b2b33;
+  font-weight: 600;
+  letter-spacing: 0;
+  transition: background-color 0.35s ease, color 0.35s ease;
+}
+
+/* Capabilities with check tiles */
+.clay-card-sublist {
+  margin-top: 0;
+  padding-top: 0;
+  border-top: 0;
+  gap: 12px 20px;
+}
+
+.clay-sublist-item {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  font-size: 14.5px;
+  font-weight: 500;
+  color: #26262e;
+}
+
+.clay-sublist-item::before {
+  content: '';
+  flex: 0 0 28px;
+  height: 28px;
+  border-radius: 8px;
+  background: #f0f0f3 url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' fill='none' stroke='%233a3a44' stroke-width='2.4' stroke-linecap='round' stroke-linejoin='round'%3E%3Cpath d='M5 12.5l4.5 4.5L19 7.5'/%3E%3C/svg%3E") center / 14px no-repeat;
+}
+
+.clay-card-cta {
+  display: inline-flex;
+  align-items: center;
+  align-self: flex-start;
+  gap: 10px;
+  padding: 13px 20px;
+  border-radius: 10px;
+  background: #0b0b12;
+  color: #ffffff;
+  font-family: var(--clay-font);
+  font-size: 15px;
+  font-weight: 600;
+  text-decoration: none;
+  transition: background-color 0.25s ease;
+}
+
+.clay-card-cta svg {
+  transition: transform 0.25s ease;
+}
+
+.clay-card-cta:hover,
+.clay-card-cta:focus-visible {
+  background: #6459e8;
+}
+
+.clay-card-cta:hover svg {
+  transform: translateX(3px);
+}
+
+/* ==========================================================================
+   STACKING CARDS (wide screens)
+   Each card sticks a step lower than the one before, so earlier cards stay
+   visible as a stack of badge strips. audit.js scales and dims covered cards.
+   ========================================================================== */
+@media (min-width: 1101px) {
+  .clay-services-section {
+    background-color: #f4f4f6;
+    padding: 110px 0 140px;
+  }
+
+  .clay-services-heading {
+    margin-bottom: 48px;
+  }
+
+  /* Cards run nearly edge to edge, like the reference */
+  .clay-services-section .clay-container {
+    max-width: none;
+    padding: 0 clamp(20px, 1.8vw, 36px);
+  }
+
+  .clay-services-section .clay-services-heading {
+    padding-left: clamp(24px, 3.4vw, 84px);
+  }
+
+  .clay-services-cards {
+    /* The whole deck is sized from the viewport so the front card always
+       fits completely: card height = screen - top offset - all strips. */
+    --stack-top: 24px;
+    --stack-step: clamp(40px, 5.5vh, 56px);
+    --card-h: clamp(420px, calc(100svh - var(--stack-top) - (var(--n, 4) - 1) * var(--stack-step) - 16px), 820px);
+    /* Scroll distance a pinned card zooms out alone before the next arrives */
+    gap: 60vh;
+  }
+
+  /* Spacer inside the list: sticky items can't travel past the list's
+     content box. With zero height it still adds one 60vh row gap after the
+     last card, which is the rest time for the finished stack. */
+  .clay-services-cards::after {
+    content: '';
+    display: block;
+    height: 0;
+  }
+
+  .clay-service-card {
+    position: sticky;
+    top: calc(var(--stack-top) + var(--i, 0) * var(--stack-step));
+  }
+
+  .clay-service-card__wrapper {
+    position: relative;
+    height: var(--card-h);
+    grid-template-columns: minmax(0, 0.92fr) minmax(0, 1.08fr);
+    gap: clamp(32px, 4vw, 72px);
+    align-items: stretch;
+    padding: 12px;
+    background: #ffffff;
+    border: 1px solid #e9e9ee;
+    border-radius: 24px;
+    box-shadow: 0 1px 2px rgba(16, 16, 32, 0.04), 0 -14px 36px -24px rgba(16, 16, 32, 0.16);
+    overflow: hidden;
+    transform-origin: top center;
+    will-change: transform;
+  }
+
+  /* Faint dim on covered cards (opacity driven by --dim from audit.js) */
+  .clay-service-card__wrapper::after {
+    content: '';
+    position: absolute;
+    inset: 0;
+    border-radius: inherit;
+    background: #0b0b12;
+    opacity: var(--dim, 0);
+    pointer-events: none;
+  }
+
+  /* Same layout on every card: text left, visual right */
+  .clay-service-card .clay-card-content,
+  .clay-service-card:nth-child(even) .clay-card-content { order: 1; }
+  .clay-service-card .clay-card-visual,
+  .clay-service-card:nth-child(even) .clay-card-visual { order: 2; }
+
+  .clay-card-content {
+    max-width: none;
+    justify-content: flex-start;
+    gap: clamp(16px, 3.6vh, 48px);
+    padding: 4px 0 clamp(16px, 3vh, 40px) 4px;
+  }
+
+  /* Badge sits in the card corner; everything else is indented */
+  .clay-card-head > :not(.clay-card-kicker),
+  .clay-card-foot {
+    margin-left: clamp(24px, 3.4vw, 64px);
+  }
+
+  .clay-card-title {
+    font-size: clamp(28px, min(3.4vw, 6.4vh), 62px);
+    line-height: 1.04;
+    margin-top: clamp(12px, 5vh, 72px);
+    max-width: 13ch;
+  }
+
+  .clay-card-text {
+    font-size: clamp(14px, 1.9vh, 16.5px);
+    line-height: 1.6;
+    color: #5f5f6b;
+    max-width: 44ch;
+  }
+
+  /* Visual: dark panel with the animated line figure (audit.js draws it
+     in the canvas colour below). The stock photo is not used here. */
+  .clay-card-visual {
+    aspect-ratio: auto;
+    height: 100%;
+  }
+
+  .clay-card-media-box {
+    width: 100%;
+    height: 100%;
+    border-radius: 18px;
+    background:
+      radial-gradient(60% 55% at 50% 50%, rgba(100, 89, 232, 0.2), transparent 70%),
+      #08070f;
+    box-shadow: none;
+  }
+
+  .clay-card-media-inner { display: none; }
+
+  .clay-card-stage {
+    display: flex;
+    inset: 0;
+    z-index: 3;
+  }
+
+  .clay-stage-canvas {
+    color: #ffffff;
+    --figure-dot: #8f86ff;
+    --figure-strength: 3.2;
+    --figure-scale: 1.75;
+  }
+
+  .clay-card-kicker__num { height: 24px; }
+
+  .clay-card-head { gap: clamp(10px, 1.8vh, 16px); }
+  .clay-card-foot { gap: clamp(14px, 2.6vh, 28px); }
+  .clay-card-sublist { gap: clamp(8px, 1.3vh, 12px) 20px; }
+  .clay-card-cta { padding: clamp(10px, 1.5vh, 13px) 20px; }
+
+  .clay-service-card.is-active .clay-card-kicker__num {
+    background: #6459e8;
+    color: #ffffff;
+  }
+}
+
 .clay-sublist-item:hover {
   transform: translateX(3px);
   color: #444;
@@ -713,15 +979,6 @@ body.clay-body {
   z-index: 5;
 }
 
-.industry-chapter {
-  font-family: var(--clay-font-mono);
-  font-size: 13px;
-  font-weight: 600;
-  letter-spacing: 0.16em;
-  text-transform: uppercase;
-  color: rgba(255, 255, 255, 0.75);
-}
-
 .industry-name {
   font-family: var(--clay-font);
   font-size: clamp(38px, 5.2vw, 76px);
@@ -732,39 +989,34 @@ body.clay-body {
   text-shadow: 0 4px 30px rgba(0, 0, 0, 0.25);
 }
 
+/* Plain informational list (not buttons: these items are not links) */
 .industry-members {
-  display: flex;
-  flex-wrap: wrap;
-  gap: 10px 14px;
-  margin-top: 10px;
-  font-size: 15px;
-  line-height: 1.5;
-  color: rgba(255, 255, 255, 0.65);
+  list-style: none;
+  margin: 12px 0 0;
+  padding: 0;
+  display: grid;
+  grid-template-columns: repeat(2, max-content);
+  gap: 14px 56px;
 }
 
-.industry-members span {
-  display: inline-flex;
-  align-items: center;
-  background: rgba(255, 255, 255, 0.12);
-  border: 1px solid rgba(255, 255, 255, 0.25);
-  border-radius: 999px;
-  padding: 8px 20px;
-  font-size: clamp(13px, 1.35vw, 15px);
-  font-weight: 600;
-  color: #ffffff;
-  backdrop-filter: blur(14px);
-  -webkit-backdrop-filter: blur(14px);
-  box-shadow: 0 4px 16px rgba(0, 0, 0, 0.15);
-  transition: all 0.25s cubic-bezier(0.16, 1, 0.3, 1);
+.industry-members li {
+  position: relative;
+  padding-left: 20px;
+  font-size: clamp(16px, 1.6vw, 20px);
+  font-weight: 500;
+  line-height: 1.35;
+  color: rgba(255, 255, 255, 0.9);
 }
 
-.industry-members span:hover {
-  background: rgba(255, 255, 255, 0.3);
-  border-color: rgba(255, 255, 255, 0.65);
-  transform: translateY(-3px);
-  box-shadow: 0 8px 24px rgba(0, 0, 0, 0.35);
-  color: #ffffff;
-  text-decoration: none;
+.industry-members li::before {
+  content: '';
+  position: absolute;
+  left: 0;
+  top: 0.55em;
+  width: 6px;
+  height: 6px;
+  background: currentColor;
+  opacity: 0.6;
 }
 
 /* Bottom Progress Scrub Bar */
@@ -825,9 +1077,9 @@ body.clay-body {
     display: none; /* Keep clean on small mobile viewports */
   }
 
-  .industry-members span {
-    padding: 6px 14px;
-    font-size: 13px;
+  .industry-members {
+    grid-template-columns: 1fr;
+    gap: 10px;
   }
 }
 
@@ -1066,5 +1318,25 @@ body.clay-body {
   .clay-footer-top {
     flex-direction: column;
     gap: 40px;
+  }
+}
+
+/* --------------------------------------------------------------------------
+   CURTAIN REVEAL (wide screens): after the card deck finishes stacking, the
+   "How we work" section slides up over the pinned deck instead of leaving an
+   empty band. It overlaps the deck's 60vh rest gap minus a short pause.
+   -------------------------------------------------------------------------- */
+@media (min-width: 1101px) {
+  .clay-services-section {
+    padding-bottom: 0;
+  }
+
+  .clay-framework-section {
+    position: relative;
+    z-index: 5;
+    margin-top: -45vh;
+    border-top: 0;
+    border-radius: 32px 32px 0 0;
+    box-shadow: 0 -24px 60px -24px rgba(16, 16, 32, 0.22);
   }
 }
