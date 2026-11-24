@@ -875,6 +875,16 @@ async function handleRequest(req, res) {
      STATIC FILE SERVING
      ------------------------------------------------------------------ */
 
+  // explore-data.js is generated from the CMS content (and gitignored), so
+  // build it per request; read-only hosts never write it to disk.
+  if (req.method === 'GET' && reqPath === '/assets/explore/explore-data.js') {
+    const headers = cors.headers(req);
+    headers['Content-Type'] = 'application/javascript; charset=utf-8';
+    headers['Cache-Control'] = 'no-cache';
+    res.writeHead(200, headers);
+    return res.end(contentStore.generateExploreDataJs(contentStore.read()));
+  }
+
   const fullPath = resolveStaticPath(reqPath);
   if (!fullPath) {
     return sendText(res, 404, '404 Not Found: ' + reqPath);
