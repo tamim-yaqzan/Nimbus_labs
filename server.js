@@ -78,9 +78,12 @@ const cloudinaryConfig = {
 const cloudinaryPreset = process.env.CLOUDINARY_UPLOAD_PRESET || 'Nimbus_Cms';
 
 // Ensure necessary directories exist
+// (Skipped silently on read-only hosts such as Vercel serverless functions.)
 [path.join(__dirname, 'data'), BACKUPS_DIR, UPLOADS_DIR].forEach(dir => {
-  if (!fs.existsSync(dir)) {
-    fs.mkdirSync(dir, { recursive: true });
+  try {
+    if (!fs.existsSync(dir)) fs.mkdirSync(dir, { recursive: true });
+  } catch (err) {
+    console.warn('Could not create ' + dir + ': ' + err.message);
   }
 });
 
@@ -264,7 +267,7 @@ function getMediaFiles() {
   return mediaList.sort((a, b) => new Date(b.modified) - new Date(a.modified));
 }
 
-const server = http.createServer(async (req, res) => {
+async function handleRequest(req, res) {
   res.req = req;
 
   // Handle CORS preflight (restricted to the configured site origin)
@@ -849,7 +852,13 @@ const server = http.createServer(async (req, res) => {
       // Retention cap: keep the newest 500 inquiries only.
       if (inquiries.length > 500) inquiries = inquiries.slice(0, 500);
 
-      fs.writeFileSync(auditLogPath, JSON.stringify(inquiries, null, 2), 'utf8');
+      try {
+        fs.writeFileSync(auditLogPath, JSON.stringify(inquiries, null, 2), 'utf8');
+      } catch (writeErr) {
+        // Read-only host (e.g. Vercel): keep the inquiry in the platform logs
+        // instead of failing the visitor's request.
+        console.log('AUDIT_INQUIRY ' + JSON.stringify(record));
+      }
 
       return sendJson(res, 200, {
         status: 'success',
@@ -904,11 +913,18 @@ const server = http.createServer(async (req, res) => {
     const stream = fs.createReadStream(fullPath);
     stream.pipe(res);
   });
-});
+}
 
-server.listen(PORT, '0.0.0.0', () => {
-  // Keep the static explore-data.js contract in sync with the CMS content.
-  contentStore.sync();
-  console.log(`Nimbus Labs server running at http://0.0.0.0:${PORT}/`);
-  console.log(`CMS Matrix control panel at http://localhost:${PORT}/cms`);
-});
+// Run as a standalone server (`node server.js`), or export the request
+// handler so a serverless host (Vercel, see api/index.js) can call it.
+if (require.main === module) {
+  const server = http.createServer(handleRequest);
+  server.listen(PORT, '0.0.0.0', () => {
+    // Keep the static explore-data.js contract in sync with the CMS content.
+    contentStore.sync();
+    console.log(`Nimbus Labs server running at http://0.0.0.0:${PORT}/`);
+    console.log(`CMS Matrix control panel at http://localhost:${PORT}/cms`);
+  });
+}
+
+module.exports = handleRequest;
