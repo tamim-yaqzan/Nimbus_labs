@@ -175,6 +175,7 @@ body.clay-body {
 /* Clay's iconic black pill contact button */
 .clay-contact-btn {
   display: inline-block;
+  white-space: nowrap;
   padding: 11px 26px;
   background-color: var(--clay-black);
   color: var(--clay-white);
@@ -1295,6 +1296,10 @@ body.clay-body {
   }
   .clay-burger-btn {
     display: flex;
+  }
+  /* Same link lives in the menu drawer; the pill wrapped on phones */
+  .clay-header__action .clay-contact-btn {
+    display: none;
   }
   .clay-industry-item {
     grid-template-columns: 1fr;

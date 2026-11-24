@@ -323,6 +323,7 @@ button {
 
 .clay-contact-btn {
   display: inline-block;
+  white-space: nowrap;
   padding: 11px 26px;
   background-color: #000000;
   color: #ffffff !important;
@@ -514,6 +515,11 @@ button {
 @media (max-width: 860px) {
   .clay-header__container {
     padding: 0 24px;
+  }
+  /* The menu drawer already has this link; on phones the pill wrapped onto
+     two lines next to the burger, so keep only the burger there. */
+  .clay-header__action .clay-contact-btn {
+    display: none;
   }
   .clay-nav {
     display: none;
@@ -897,6 +903,10 @@ button {
   position: relative;
   width: 100%;
   max-width: 120rem; /* Exact Webflow setting */
+  /* Never shorter than the viewport: the 16:9 scenery must be at least
+     16/9 x screen-height wide, or the hero's dark background shows below it
+     on tall/narrow screens. (min-width wins over max-width when larger.) */
+  min-width: 177.78vh;
   margin: 0 auto;
   display: flex;
   justify-content: center;
@@ -1660,7 +1670,7 @@ button {
 @media screen and (max-width: 991px) {
   .hero-wrapper {
     /* Responsive width scaling ensuring panoramic height on tablets */
-    min-width: 64rem;
+    min-width: max(64rem, 177.78vh);
     left: 50%;
     transform: translateX(-50%);
   }
@@ -1805,7 +1815,7 @@ button {
 
   /* Matching Webflow mobile scenery framing */
   .hero-wrapper {
-    min-width: 72rem;
+    min-width: max(72rem, 177.78vh);
     left: 50%;
     transform: translateX(-50%);
   }
@@ -1903,7 +1913,7 @@ button {
 /* Small Mobile (max-width: 480px) */
 @media screen and (max-width: 480px) {
   .hero-wrapper {
-    min-width: 80rem;
+    min-width: max(80rem, 177.78vh);
     left: 50%;
     transform: translateX(-50%);
   }
